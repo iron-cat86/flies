@@ -31,6 +31,7 @@ add_executable(${PROJECT_NAME} "main.cpp")
 add_subdirectory(plant)
 add_subdirectory(cell)
 add_subdirectory(fly)
+add_subdirectory(mainwindow)
 
 target_sources(
     flies
@@ -46,7 +47,7 @@ target_link_libraries(flies PUBLIC
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
-    plant
+    mainwindow
     )
 set_target_properties(
     flies

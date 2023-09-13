@@ -1,23 +1,25 @@
-add_library(plant STATIC)
+add_library(mainwindow STATIC)
 set(headers
-    plant.h)
+    mainwindow.h)
 set(sources
-    plant.cpp)
+    mainwindow.cpp)
 #----#
 include_directories(/usr/include/x86_64-linux-gnu/qt5/QtWidgets)
+
 target_sources(
-    plant
+    mainwindow
     PRIVATE ${headers} ${sources})
 
 target_include_directories(
-    plant
+    mainwindow
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
     ) # TODO: extract public headers to separate dir
     
 target_link_libraries(
-    plant
+    mainwindow
     PUBLIC
     Qt5::Core 
-    cell) 
+    Qt5::Widgets
+    plant) 
 #----#
 

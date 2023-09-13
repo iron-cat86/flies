@@ -2,13 +2,15 @@
 #define PLANT_H
 
 #include <QObject>
+#include <QtWidgets>
+#include <QWidget>
 #include "../cell/cell.h"
 #include <vector>
 #include <memory>
 
 using namespace std;
 
-class Plant: public QObject
+class Plant: public QWidget
 {
 Q_OBJECT
 public:
