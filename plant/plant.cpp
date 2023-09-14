@@ -3,8 +3,11 @@
 
 using namespace std;
 
-Plant::Plant(unsigned int M):
-_M(M)
+Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit):
+_M(M),
+_expRoominess(expRoominess), 
+_expFlyAmount(expFlyAmount),
+_expStupit(expStupit)
 {
   // qDebug()<<"I'm plant!";
    unsigned int idCell=1000;
@@ -19,8 +22,14 @@ _M(M)
       {
          int j=jt-_M;
          qDebug()<<"["<<i<<"]["<<j<<"]";
-         unsigned int roominess=(unsigned int)abs(rand()/100000000);
-         unsigned int flyAmount=(unsigned int)abs(rand()/100000000);
+         unsigned int roominess=(unsigned int)abs(rand());
+         
+         for(unsigned int n=0; n<10-_expRoominess; ++n)
+            roominess/=10;
+         unsigned int flyAmount=(unsigned int)abs(rand());
+         
+         for(unsigned int n=0; n<10-_expFlyAmount; ++n)
+            flyAmount/=10;
          int trueFlyAmount=flyAmount;
          
          if(flyAmount>roominess)
@@ -33,7 +42,11 @@ _M(M)
          
          for(unsigned int k=0; k<trueFlyAmount; ++k)
          {
-            shared_ptr<Fly> curfly=shared_ptr<Fly>(new Fly(idCell+k, rand()/100000000, cell->getX(), cell->getY(), _M, idCell));
+            unsigned int T=(unsigned int)(abs(rand()));
+            
+            for(int n=0; n<10-_expStupit; ++n)
+               T/=10;
+            shared_ptr<Fly> curfly=shared_ptr<Fly>(new Fly(idCell+k, T, cell->getX(), cell->getY(), _M, idCell));
             qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
             cell->_flies.push_back(curfly);            
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();

@@ -22,14 +22,19 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(unsigned int range);
+    MainWindow(unsigned int range, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit);
     ~MainWindow();
 public slots:
    void about();
+   void runFlies();
 private:
-   unsigned int        _range=0;
-   shared_ptr<QAction> _aboutAction;
-   shared_ptr<QMenu>   _helpMenu;
-   shared_ptr<Plant>   _plant;
+   unsigned int            _range=0;        //размер квадрата
+   unsigned int            _expRoominess=0; //порядок мухоемкостей
+   unsigned int            _expFlyAmount=0; //порядок количеств мух в ячейках
+   unsigned int            _expStupit=0;    //порядок тупостей мух, в секундах
+   shared_ptr<QAction>     _aboutAction;
+   shared_ptr<QMenu>       _helpMenu;
+   shared_ptr<QPushButton> _running;
+   shared_ptr<Plant>       _plant;
 };
 #endif
