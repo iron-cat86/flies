@@ -2,6 +2,8 @@
 #define CELL_H
 
 #include <QObject>
+#include <QtWidgets>
+#include <QWidget>
 #include "../fly/fly.h"
 #include <vector>
 #include <algorithm>
@@ -10,7 +12,7 @@
 
 using namespace std;
 
-class Cell: public QObject
+class Cell: public QLabel
 {
 Q_OBJECT
 public:
@@ -20,7 +22,8 @@ public:
       unsigned int flyRoominess, 
       unsigned int flyAmount, 
       unsigned int range,
-      unsigned int id
+      unsigned int id,
+      QWidget     *parent=nullptr
    );
    Cell(shared_ptr<Cell> cell);
    ~Cell();

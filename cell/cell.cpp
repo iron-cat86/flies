@@ -9,14 +9,19 @@ Cell::Cell(
       unsigned int flyRoominess,
       unsigned int flyAmount, 
       unsigned int range, 
-      unsigned int id
+      unsigned int id,
+      QWidget     *parent
    ):
-_x(x),
-_y(y),
-_flyRoominess(flyRoominess),
-_range(range),
-_id(id)
+   QLabel(parent)
 {
+   _x=x;
+   _y=y;
+   _flyRoominess=flyRoominess;
+   _range=range;
+   _id=id;
+   setStyleSheet("QLabel { border: 1px solid gray;"
+                            "border-radius: 3px;"
+                            "margin-top: 1ex; }");
    if(
       abs(_x)>abs((int)_range)||
       abs(_y)>abs((int)_range)

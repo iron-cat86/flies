@@ -4,6 +4,7 @@ set(headers
 set(sources
     cell.cpp)
 #----#
+include_directories(/usr/include/x86_64-linux-gnu/qt5/QtWidgets)
 
 target_sources(
     cell

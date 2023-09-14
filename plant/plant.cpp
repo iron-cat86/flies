@@ -3,7 +3,13 @@
 
 using namespace std;
 
-Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit, QWidget *parent):QLabel(parent)
+Plant::Plant(
+   unsigned int M, 
+   unsigned int expRoominess, 
+   unsigned int expFlyAmount, 
+   unsigned int expStupit, 
+   QWidget *parent):
+   QLabel(parent)
 {
    _M=M;
    _expRoominess=expRoominess; 
@@ -17,6 +23,10 @@ Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmoun
    setStyleSheet("QLabel { border: 1px solid gray;"
                             "border-radius: 3px;"
                             "margin-top: 1ex; }");
+   int cellX=1370/(2*_M+1);
+   int cellY=770/(2*_M+1);
+   int startX=15;
+   int startY=15;
    
    for(int it=0; it<=2*_M; ++it)
    {
@@ -41,7 +51,9 @@ Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmoun
             
          qDebug()<<"Cell["<<i<<"]["<<j<<"]: roominess="<<roominess<<", fly amount="<<trueFlyAmount;
          flySum+=trueFlyAmount;
-         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell));
+         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, this));
+         cell->setGeometry(startX, startY, cellX, cellY);
+         startX+=cellX; 
          qDebug()<<"Cell with id "<<idCell<<" is created.";
          
          for(unsigned int k=0; k<trueFlyAmount; ++k)
@@ -55,10 +67,13 @@ Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmoun
             cell->_flies.push_back(curfly);            
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();
          }
+         cell->show();
          _cells.push_back(cell);
          //qDebug()<<"Cell with id "<<_cells.back()->getID()<<" is added suxessfully.";
          idCell+=1000;
       }
+      startY+=cellY;
+      startX=15;
    }
    qDebug()<<"sum="<<flySum;
    
