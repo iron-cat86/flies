@@ -16,7 +16,7 @@ _expStupit(expStupit)
     _helpMenu->addAction(_aboutAction.get());
     setAttribute(Qt::WA_DeleteOnClose);
     _running=shared_ptr<QPushButton>(new QPushButton(this));
-    _running->setGeometry(50, 50, 200, 150);
+    _running->setGeometry(50, 50, 200, 100);
     _running->setUpdatesEnabled(true);
     _running->setEnabled(true);
     _running->setText("&Run");
@@ -36,6 +36,6 @@ void MainWindow::about()
 
 void MainWindow::runFlies()
 {
-   _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit));
-   setCentralWidget(_plant.get());
+   _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit, this));
+   _running->setEnabled(false);
 }

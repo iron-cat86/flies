@@ -3,16 +3,20 @@
 
 using namespace std;
 
-Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit):
-_M(M),
-_expRoominess(expRoominess), 
-_expFlyAmount(expFlyAmount),
-_expStupit(expStupit)
+Plant::Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit, QWidget *parent):QLabel(parent)
 {
+   _M=M;
+   _expRoominess=expRoominess; 
+   _expFlyAmount=expFlyAmount;
+   _expStupit=expStupit;
   // qDebug()<<"I'm plant!";
    unsigned int idCell=1000;
    //qDebug()<<"My range="<<_M;
    unsigned int flySum=0;
+   setGeometry(50, 150, 1400, 800); 
+   setStyleSheet("QLabel { border: 1px solid gray;"
+                            "border-radius: 3px;"
+                            "margin-top: 1ex; }");
    
    for(int it=0; it<=2*_M; ++it)
    {
@@ -68,6 +72,7 @@ _expStupit(expStupit)
          qDebug()<<"Fly "<<f->getID()<<" is suxess";
       }
    }
+   show();
 }
 
 void Plant::connectFlyWithPlant(shared_ptr<Fly> f)

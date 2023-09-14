@@ -14,7 +14,7 @@ class Plant: public QLabel
 {
 Q_OBJECT
 public:
-   Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit);
+   Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit, QWidget *parent = nullptr);
    ~Plant();
 signals:
    void giveCell(
