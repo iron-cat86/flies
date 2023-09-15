@@ -14,7 +14,12 @@ class Plant: public QLabel
 {
 Q_OBJECT
 public:
-   Plant(unsigned int M, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit, QWidget *parent = nullptr);
+   Plant(
+      unsigned int M, 
+      unsigned int expRoominess, 
+      unsigned int expFlyAmount, 
+      unsigned int expStupit, 
+      QWidget *parent = nullptr);
    ~Plant();
 signals:
    void giveCell(
@@ -37,6 +42,8 @@ private:
    unsigned int _expFlyAmount=0;   //порядок количеств мух в ячейках
    unsigned int _expStupit=0;      //порядок тупостей мух, в секундах
    vector<shared_ptr<Cell>> _cells;//ячейки
+   vector<shared_ptr<QLabel>> _axisLabelY;
+   vector<shared_ptr<QLabel>> _axisLabelX;
 };
 
 #endif // PLANT_H

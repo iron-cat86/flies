@@ -1,5 +1,6 @@
 #include "plant.h"
 #include <cstdlib>
+#include <QString>
 
 using namespace std;
 
@@ -15,14 +16,18 @@ Plant::Plant(
    _expRoominess=expRoominess; 
    _expFlyAmount=expFlyAmount;
    _expStupit=expStupit;
+   unsigned int idStep=1; 
   // qDebug()<<"I'm plant!";
-   unsigned int idCell=1000;
+   
+   for(int i=0; i<_expRoominess; ++i)
+      idStep*=10;
+   unsigned int idCell=idStep;
    //qDebug()<<"My range="<<_M;
    unsigned int flySum=0;
    setGeometry(50, 150, 1400, 800); 
    setStyleSheet("QLabel { border: 1px solid gray;"
-                            "border-radius: 3px;"
-                            "margin-top: 1ex; }");
+                 "border-radius: 3px;"
+                 "margin-top: 1ex; }");
    int cellX=1370/(2*_M+1);
    int cellY=770/(2*_M+1);
    int startX=15;
@@ -30,7 +35,32 @@ Plant::Plant(
    
    for(int it=0; it<=2*_M; ++it)
    {
+      int j=it-_M;
+      QString axisLabelYtxt=QString::number(j);
+      shared_ptr<QLabel> axisLabelY=shared_ptr<QLabel>(new QLabel(this));
+      _axisLabelY.push_back(axisLabelY);
+      _axisLabelY.back()->setGeometry(startX, 5, cellX, 15);
+      _axisLabelY.back()->setStyleSheet("QLabel { border: 0px solid gray;"
+                                        "border-radius: 0px;"
+                                        "margin-top: 0ex; }");
+      _axisLabelY.back()->setText(axisLabelYtxt);
+      _axisLabelY.back()->show();
+      startX+=cellX;
+   }
+   startX=15;
+      
+   for(int it=0; it<=2*_M; ++it)
+   {
       int i=it-_M;
+      QString axisLabelXtxt=QString::number(i);
+      shared_ptr<QLabel> axisLabelX=shared_ptr<QLabel>(new QLabel(this));
+      _axisLabelX.push_back(axisLabelX);
+      _axisLabelX.back()->setGeometry(5, startY, 15, cellY);
+      _axisLabelX.back()->setStyleSheet("QLabel { border: 0px solid gray;"
+                                        "border-radius: 0px;"
+                                        "margin-top: 0ex; }");
+      _axisLabelX.back()->setText(axisLabelXtxt);
+      _axisLabelX.back()->show();
       
       for(int jt=0; jt<=2*_M; ++jt)
       {
@@ -53,6 +83,9 @@ Plant::Plant(
          flySum+=trueFlyAmount;
          shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, this));
          cell->setGeometry(startX, startY, cellX, cellY);
+         cell->setAlignment(Qt::AlignCenter);
+         cell->setStyleSheet(QString("color: rgb(255, 127, 50); font-size: %1px").arg(cellY/3));
+         cell->setText(QString::number(idCell));
          startX+=cellX; 
          qDebug()<<"Cell with id "<<idCell<<" is created.";
          
@@ -70,7 +103,7 @@ Plant::Plant(
          cell->show();
          _cells.push_back(cell);
          //qDebug()<<"Cell with id "<<_cells.back()->getID()<<" is added suxessfully.";
-         idCell+=1000;
+         idCell+=idStep;
       }
       startY+=cellY;
       startX=15;
