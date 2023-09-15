@@ -5,6 +5,8 @@ set(sources
     fly.cpp)
 #----#
 
+include_directories(/usr/include/x86_64-linux-gnu/qt5/QtWidgets)
+
 target_sources(
     fly
     PRIVATE ${headers} ${sources})

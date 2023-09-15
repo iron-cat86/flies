@@ -10,7 +10,7 @@ Plant::Plant(
    unsigned int expFlyAmount, 
    unsigned int expStupit, 
    QWidget *parent):
-   QLabel(parent)
+   QGroupBox(parent)
 {
    _M=M;
    _expRoominess=expRoominess; 
@@ -23,9 +23,9 @@ Plant::Plant(
       idStep*=10;
    unsigned int idCell=idStep;
    //qDebug()<<"My range="<<_M;
-   unsigned int flySum=0;
+   unsigned int maxRoominess=0;
    setGeometry(50, 150, 1400, 800); 
-   setStyleSheet("QLabel { border: 1px solid gray;"
+   setStyleSheet("QGroupBox { border: 1px solid gray;"
                  "border-radius: 3px;"
                  "margin-top: 1ex; }");
    int cellX=1370/(2*_M+1);
@@ -70,6 +70,9 @@ Plant::Plant(
          
          for(unsigned int n=0; n<10-_expRoominess; ++n)
             roominess/=10;
+         
+         if(maxRoominess<roominess)
+            maxRoominess=roominess;
          unsigned int flyAmount=(unsigned int)abs(rand());
          
          for(unsigned int n=0; n<10-_expFlyAmount; ++n)
@@ -80,12 +83,14 @@ Plant::Plant(
             trueFlyAmount=roominess;
             
          qDebug()<<"Cell["<<i<<"]["<<j<<"]: roominess="<<roominess<<", fly amount="<<trueFlyAmount;
-         flySum+=trueFlyAmount;
-         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, this));
+         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, cellY/4, this));
          cell->setGeometry(startX, startY, cellX, cellY);
          cell->setAlignment(Qt::AlignCenter);
-         cell->setStyleSheet(QString("color: rgb(255, 127, 50); font-size: %1px").arg(cellY/3));
-         cell->setText(QString::number(idCell));
+         QString cellName=QString::number(idCell);
+         cellName+="(r=";
+         cellName+=QString::number(roominess);
+         cellName+=")";
+         cell->setText(cellName);
          startX+=cellX; 
          qDebug()<<"Cell with id "<<idCell<<" is created.";
          
@@ -96,8 +101,11 @@ Plant::Plant(
             for(int n=0; n<10-_expStupit; ++n)
                T/=10;
             shared_ptr<Fly> curfly=shared_ptr<Fly>(new Fly(idCell+k, T, cell->getX(), cell->getY(), _M, idCell));
+            shared_ptr<QPushButton> clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
-            cell->_flies.push_back(curfly);            
+            cell->_flies.push_back(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>>(curfly, clickButton));         
+            cell->_flies.back().second->setText(QString::number(idCell+k));  
+            cell->_flies.back().second->setEnabled(true); 
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();
          }
          cell->show();
@@ -108,27 +116,47 @@ Plant::Plant(
       startY+=cellY;
       startX=15;
    }
-   qDebug()<<"sum="<<flySum;
+   unsigned int size=(unsigned int)(sqrt((double)maxRoominess));
+   _flySizeX=(cellX+3)/(size+1);
+   _flySizeY=(cellY+3)/size;
+   qDebug()<<"maxRoominess="<<maxRoominess<<", size="<<size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
    
    for(shared_ptr<Cell> c :_cells)
    {
       qDebug()<<"Cell "<<c->getID()<<":";
+      unsigned int it=0;
+      unsigned int jt=0;
       
-      for(shared_ptr<Fly> f: c->_flies)
+      for(unsigned int i=0; i<c->_flies.size(); ++i)
       {
-         connectFlyWithPlant(f);
-         qDebug()<<"Fly "<<f->getID()<<" is suxess";
+         connectAndSetFlyWithPlant(c->_flies[i], it, jt);
+         it+=_flySizeX+3;
+         
+         if(it>=(_flySizeX+3)*(size+1))
+         {
+            it=0;
+            jt+=_flySizeY+3;
+         }
       }
+      c->setFreeX(it);
+      c->setFreeX(jt);
+      c->update();
+      c->show();
    }
    show();
 }
 
-void Plant::connectFlyWithPlant(shared_ptr<Fly> f)
+void Plant::connectAndSetFlyWithPlant(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> f, unsigned int it, unsigned int jt)
 {
-   QObject::connect(f.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int)));
-   QObject::connect(f.get(), SIGNAL(allreadyChanging(unsigned int, unsigned int, unsigned int)), this, SLOT(changeCell(unsigned int, unsigned int, unsigned int)));
-   QObject::connect(this, SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, int, int)), f.get(), SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int)));
-   f->start();
+   f.second->setGeometry(it, jt, _flySizeX, _flySizeY); 
+   f.second->setEnabled(true);
+   f.second->show();
+   f.first->setXinCell(it);
+   f.first->setYinCell(jt);
+   QObject::connect(f.first.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int)));
+   QObject::connect(f.first.get(), SIGNAL(allreadyChanging(unsigned int, unsigned int, unsigned int)), this, SLOT(changeCell(unsigned int, unsigned int, unsigned int)));
+   QObject::connect(this, SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int)), f.first.get(), SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int)));
+   f.first->start();
 }
 
 Plant::~Plant()
@@ -140,7 +168,7 @@ void Plant::giveCellInfo(unsigned int qID, int x, int y)
    shared_ptr<Cell> newcell=findCellWithCoordinates(x, y);
    
    if(newcell->isExist())
-      emit giveCell(qID, newcell->getFlyAmount(), newcell->getFlyRoominess(), newcell->getID(), newcell->getX(), newcell->getY()); 
+      emit giveCell(qID, newcell->getFlyAmount(), newcell->getFlyRoominess(), newcell->getID(), newcell->getFreeX(), newcell->getFreeY(), newcell->getX(), newcell->getY()); 
 }
 
 void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID)
@@ -152,10 +180,10 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
       
    if(it<_cells.size())
    {
-      shared_ptr<Fly> curFly=_cells[it]->findFlyForID(flyID);
+      QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> curFly=_cells[it]->findFlyForID(flyID);
       //qDebug()<<"PlANT: curfly";
       
-      if(!curFly->isDead())
+      if(!curFly.first->isDead())
       {
          _cells[it]->deleteFly(flyID);
          //qDebug()<<"PlANT: delete fly";
@@ -169,16 +197,22 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
          {
             _cells[it_1]->insertFly(curFly);
            // qDebug()<<"PlANT: insert fly";
-            unsigned int curFlyID=curFly->getID();
+            unsigned int curFlyID=curFly.first->getID();
             unsigned int it_2=0;
             
-            while(it_2<_cells[it_1]->_flies.size()&&_cells[it_1]->_flies[it_2]->getID()!=curFlyID)
+            while(it_2<_cells[it_1]->_flies.size()&&_cells[it_1]->_flies[it_2].first->getID()!=curFlyID)
                ++it_2;
              //qDebug()<<"PlANT: it_2="<<it_2;
             
             if(it_2<_cells[it_1]->_flies.size())
             {
-               connectFlyWithPlant(_cells[it_1]->_flies[it_2]);
+               _cells[it_1]->_flies[it_2].second.reset();
+               _cells[it_1]->_flies[it_2].second=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get()));       
+               _cells[it_1]->_flies[it_2].second->setText(QString::number(_cells[it_1]->_flies[it_2].first->getID()));  
+               _cells[it_1]->_flies[it_2].second->setEnabled(true);
+               connectAndSetFlyWithPlant(_cells[it_1]->_flies[it_2], _cells[it_1]->getFreeX(), _cells[it_1]->getFreeY());
+               /*_cells[it_1]->update();
+               _cells[it_1]->show();*/
                //qDebug()<<"PlANT: connect";
             }
             else
@@ -202,6 +236,6 @@ shared_ptr<Cell> Plant::findCellWithCoordinates(int x, int y)
       if(value->getX()==x&&value->getY()==y)
          return value;
    }
-   shared_ptr<Cell> notExist=shared_ptr<Cell>(new Cell(x, y, 0, 0, _M, 0));
+   shared_ptr<Cell> notExist=shared_ptr<Cell>(new Cell(x, y, 0, 0, _M, 0, 0));
    return notExist; 
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtWidgets>
 #include <QWidget>
+#include <QPair>
 #include "../fly/fly.h"
 #include <vector>
 #include <algorithm>
@@ -23,9 +24,10 @@ public:
       unsigned int flyAmount, 
       unsigned int range,
       unsigned int id,
+      unsigned int height,
       QWidget     *parent=nullptr
    );
-   Cell(shared_ptr<Cell> cell);
+   Cell(shared_ptr<Cell> cell, QWidget *parent=nullptr);
    ~Cell();
    int          getX()            const {return _x;}           
    int          getY()            const {return _y;}           
@@ -33,19 +35,25 @@ public:
    unsigned int getFlyRoominess() const {return _flyRoominess;}
    unsigned int getID()           const {return _id;}   
    unsigned int getRange()        const {return _range;}
+   unsigned int getFreeX()        const {return _freeX;}
+   unsigned int getFreeY()        const {return _freeY;}
    bool         isExist()         const {return _exist;}
-   shared_ptr<Fly> findFlyForID(unsigned int id); 
+   QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> findFlyForID(unsigned int id); 
    void deleteFly(unsigned int id);
-   void insertFly(shared_ptr<Fly> fly);
+   void insertFly(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> fly);
+   void setFreeX(unsigned int freeX) {_freeX=freeX;}
+   void setFreeY(unsigned int freeY) {_freeY=freeY;}
 public:
-   vector<shared_ptr<Fly>> _flies;//мухи
+   vector<QPair<shared_ptr<Fly>, shared_ptr<QPushButton>>> _flies;         //мухи
 private:
-   int                     _x=0;//х-координата
-   int                     _y=0;//у-координата
+   int                     _x=0;           //х-координата
+   int                     _y=0;           //у-координата
    unsigned int            _flyRoominess=0;//мухоемкость
-   unsigned int            _range=0;//размер поля
-   unsigned int            _id;//идентификатор ячейки
-   bool                    _exist=true;//существование ячейки на поле
+   unsigned int            _range=0;       //размер поля
+   unsigned int            _id;            //идентификатор ячейки
+   unsigned int            _freeX=0;       //первая свободная для мухи Х-координата
+   unsigned int            _freeY=0;       //первая свободная для мухи Y-координата
+   bool                    _exist=true;    //существование ячейки на поле
 };
 
 #endif //CELL_H

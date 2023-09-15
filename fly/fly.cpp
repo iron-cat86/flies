@@ -1,16 +1,29 @@
 #include "fly.h"
 
-Fly::Fly(unsigned int id, unsigned int T, int x, int y, unsigned int range, unsigned int cellID):
-_id(id),
-_T(T),
-_x(x),
-_y(y),
-_range(range),
-_cellID(cellID)
+Fly::Fly(
+      unsigned int id, 
+      unsigned int T, 
+      int          x, 
+      int          y, 
+      unsigned int range, 
+      unsigned int cellID)//, 
+      //QWidget     *parent):
+      //QPushButton(parent)
 {
+   _id=id;
+   _T=T;
+   _x=x;
+   _y=y;
+   _range=range;
+   _cellID=cellID;
+ /*  QString name=QString::number(_id);
+   setText(name);
+   setEnabled(true);
+   show();*/
 }
 
-Fly::Fly(shared_ptr<Fly> fly)
+Fly::Fly(shared_ptr<Fly> fly)//, QWidget *parent):
+   //   QPushButton(parent)
 {
    _id=fly->getID();
    _T=fly->getStupit();
@@ -23,6 +36,10 @@ Fly::Fly(shared_ptr<Fly> fly)
    _death=fly->isDead();
    _info=fly->getCellInfo();
    _cellID=fly->getCellID();
+   /*QString name=QString::number(_id);
+   setText(name);
+   setEnabled(true);
+   show();*/
 }
 
 Fly::~Fly()
@@ -235,6 +252,8 @@ void Fly::getCellInfo(
       unsigned int flyAmount,
       unsigned int flyRoominess,
       unsigned int ID,
+      unsigned int freeX,
+      unsigned int freeY,
       int          x,
       int          y
       )
@@ -244,6 +263,8 @@ void Fly::getCellInfo(
       _info.flyAmount=flyAmount;
       _info.flyRoominess=flyRoominess;
       _info.ID=ID;
+      _info.freeX=freeX;
+      _info.freeY=freeY;
       _info.x=x;
       _info.y=y;
    }

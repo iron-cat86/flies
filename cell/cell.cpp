@@ -10,6 +10,7 @@ Cell::Cell(
       unsigned int flyAmount, 
       unsigned int range, 
       unsigned int id,
+      unsigned int height,
       QWidget     *parent
    ):
    QLabel(parent)
@@ -19,6 +20,8 @@ Cell::Cell(
    _flyRoominess=flyRoominess;
    _range=range;
    _id=id;
+   setStyleSheet(QString("color: rgb(255, 127, 50);"
+                                     "font-size: %1px").arg(height));
    setStyleSheet("QLabel { border: 1px solid gray;"
                             "border-radius: 3px;"
                             "margin-top: 1ex; }");
@@ -29,7 +32,8 @@ Cell::Cell(
       _exist=false;
 }
 
-Cell::Cell(shared_ptr<Cell> cell)
+Cell::Cell(shared_ptr<Cell> cell, QWidget *parent):
+   QLabel(parent)
 {
    _x=cell->getX();//х-координата
    _y=cell->getY();//у-координата
@@ -38,7 +42,7 @@ Cell::Cell(shared_ptr<Cell> cell)
    _id=cell->getID();//идентификатор ячейки
    _exist=cell->isExist();
    
-   for(shared_ptr<Fly> f: cell->_flies)
+   for(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> f: cell->_flies)
       _flies.push_back(f);
 }
 
@@ -46,32 +50,39 @@ Cell::~Cell()
 {
 }
 
-shared_ptr<Fly> Cell::findFlyForID(unsigned int id)
+QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> Cell::findFlyForID(unsigned int id)
 {
    unsigned int it=0;
    
-   while(it<_flies.size()&&_flies[it]->getID()!=id)
+   while(it<_flies.size()&&_flies[it].first->getID()!=id)
       ++it;
 
    if(it<_flies.size())
       return _flies[it];
-   return shared_ptr<Fly>(new Fly(0, 0, 0, 0, 0, 0)); 
+   shared_ptr<Fly> fl=shared_ptr<Fly>(new Fly(0, 0, 0, 0, 0, 0));
+   shared_ptr<QPushButton> pb=shared_ptr<QPushButton>(new QPushButton(this));
+   return QPair<shared_ptr<Fly>, shared_ptr<QPushButton>>(fl, pb); 
 }
 
 void Cell::deleteFly(unsigned int id)
 {
    unsigned int it=0;
    
-   while(it<_flies.size()&&_flies[it]->getID()!=id)
+   while(it<_flies.size()&&_flies[it].first->getID()!=id)
       ++it;
 
    if(it<_flies.size())
+   {
+      setFreeX(_flies[it].first->getXinCell());
+      setFreeY(_flies[it].first->getYinCell());
       _flies.erase(_flies.begin()+it);
+   }
 }
 
-void Cell::insertFly(shared_ptr<Fly> fly)
+void Cell::insertFly(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> fly)
 {
-   shared_ptr<Fly> curFly=fly;
+   shared_ptr<Fly> curFly=fly.first;
+   shared_ptr<QPushButton> curButton=fly.second;
    curFly->changeCellFromCell(_x, _y, _id);
-   _flies.push_back(curFly);
+   _flies.push_back(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>>(curFly, curButton));
 }
