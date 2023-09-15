@@ -31,12 +31,11 @@ signals:
       unsigned int freeY,
       int          x,
       int          y);
-   void startCmd();
 public slots:
    void giveCellInfo(unsigned int qID, int x, int y);
    void changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID);
 private:
-   void connectAndSetFlyWithPlant(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> f, unsigned int it, unsigned int jt);
+   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
    shared_ptr<Cell> findCellWithCoordinates(int x, int y);
 private:
    unsigned int _M=10;                    //размер квадрата

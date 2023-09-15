@@ -6,40 +6,29 @@ Fly::Fly(
       int          x, 
       int          y, 
       unsigned int range, 
-      unsigned int cellID)//, 
-      //QWidget     *parent):
-      //QPushButton(parent)
+      unsigned int cellID):
+_id(id),
+_T(T),
+_x(x),
+_y(y),
+_range(range),
+_cellID(cellID)
 {
-   _id=id;
-   _T=T;
-   _x=x;
-   _y=y;
-   _range=range;
-   _cellID=cellID;
- /*  QString name=QString::number(_id);
-   setText(name);
-   setEnabled(true);
-   show();*/
 }
 
-Fly::Fly(shared_ptr<Fly> fly)//, QWidget *parent):
-   //   QPushButton(parent)
+Fly::Fly(shared_ptr<Fly> fly):
+_id(fly->getID()),
+_T(fly->getStupit()),
+_x(fly->getX()),
+_y(fly->getY()),
+_range(fly->getRange()),
+_age(fly->getAge()),
+_milage(fly->getMilage()),
+_velocity(fly->getVelocity()),
+_death(fly->isDead()),
+_info(fly->getCellInfo()),
+_cellID(fly->getCellID())
 {
-   _id=fly->getID();
-   _T=fly->getStupit();
-   _x=fly->getX();
-   _y=fly->getY();
-   _range=fly->getRange();
-   _age=fly->getAge();
-   _milage=fly->getMilage();
-   _velocity=fly->getVelocity();
-   _death=fly->isDead();
-   _info=fly->getCellInfo();
-   _cellID=fly->getCellID();
-   /*QString name=QString::number(_id);
-   setText(name);
-   setEnabled(true);
-   show();*/
 }
 
 Fly::~Fly()

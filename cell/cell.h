@@ -38,13 +38,13 @@ public:
    unsigned int getFreeX()        const {return _freeX;}
    unsigned int getFreeY()        const {return _freeY;}
    bool         isExist()         const {return _exist;}
-   QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> findFlyForID(unsigned int id); 
+   shared_ptr<Fly> findFlyForID(unsigned int id); 
    void deleteFly(unsigned int id);
-   void insertFly(QPair<shared_ptr<Fly>, shared_ptr<QPushButton>> fly);
+   void insertFly(shared_ptr<Fly>);
    void setFreeX(unsigned int freeX) {_freeX=freeX;}
    void setFreeY(unsigned int freeY) {_freeY=freeY;}
 public:
-   vector<QPair<shared_ptr<Fly>, shared_ptr<QPushButton>>> _flies;         //мухи
+   vector<shared_ptr<Fly>> _flies;         //мухи
 private:
    int                     _x=0;           //х-координата
    int                     _y=0;           //у-координата

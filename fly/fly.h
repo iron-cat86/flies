@@ -53,8 +53,9 @@ public:
    void changeCellFromCell(int x, int y, unsigned int cellID);
    void setXinCell(unsigned int xInCell) {_xInCell=xInCell;}
    void setYinCell(unsigned int yInCell) {_yInCell=yInCell;}
-   Q_SIGNAL void questionInfo(unsigned int myID, int x, int y);
-Q_SIGNAL void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
+signals:
+   void questionInfo(unsigned int myID, int x, int y);
+   void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
 protected:
    virtual void run();
 public slots:
@@ -68,6 +69,8 @@ public slots:
       int          x,
       int          y
       );
+public:
+   shared_ptr<QPushButton> _clickButton;
 private:
    bool cellIsMine(int x, int y);//клетка моя
    bool cellIsExist(int x, int y);//проверить существование клетки
