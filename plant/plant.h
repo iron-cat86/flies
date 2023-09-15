@@ -35,7 +35,8 @@ public slots:
    void giveCellInfo(unsigned int qID, int x, int y);
    void changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID);
 private:
-   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
+   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, shared_ptr<Cell> c, unsigned int it, unsigned int jt);
+   void disconnectFlyWithPlant(shared_ptr<Fly> f);
    shared_ptr<Cell> findCellWithCoordinates(int x, int y);
 private:
    unsigned int _M=10;                    //размер квадрата
@@ -44,6 +45,7 @@ private:
    unsigned int _expStupit=0;             //порядок тупостей мух, в секундах
    unsigned int _flySizeX=0;              //размер мухи по Х
    unsigned int _flySizeY=0;              //размер мухи по Y
+   unsigned int _size=0;                  //размер ячейи в мухах
    vector<shared_ptr<Cell>>   _cells;     //ячейки
    vector<shared_ptr<QLabel>> _axisLabelY;//подписи по оси Y
    vector<shared_ptr<QLabel>> _axisLabelX;//подписи по оси Х

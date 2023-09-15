@@ -116,7 +116,7 @@ bool Fly::tryCell(int x, int y)
       beFoolish();
       bool exist=cellIsExist(x, y);
       bool change=exist?changeCell(x, y):false;
-     // qDebug()<<"("<<x<<", "<<y<<"): exist="<<exist<<", change="<<change;
+      qDebug()<<"("<<x<<", "<<y<<"): exist="<<exist<<", change="<<change;
       return exist&&change;
    }
    return false;
@@ -210,6 +210,11 @@ bool Fly::changeCell(int x, int y)
 {
    unsigned int alldID=_cellID;
   // qDebug()<<"alld id...";
+   if(_death)
+   {
+      exit();
+      return false;
+   }
    
    if(cellIsExist(x, y))
    {//клетка лежит на поле
@@ -223,9 +228,11 @@ bool Fly::changeCell(int x, int y)
          _info.flyAmount+1<=_info.flyRoominess//с моим прибытием мухоемкость новой клетки не превысится
       )
       {
+         if(isRunning())
+            exit();
          _milage+=sqrt((x-_x)*(x-_x)+(y-_y)*(y-_y));
          _velocity=_milage/((double)_age);
-         //qDebug()<<"emit";
+         qDebug()<<"emit "<<_id<<"("<<alldID<<"->"<<_info.ID<<")";
          emit allreadyChanging(_id, alldID, _info.ID);
          return true;
       }

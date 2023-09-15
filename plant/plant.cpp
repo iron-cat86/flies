@@ -48,6 +48,7 @@ Plant::Plant(
       startX+=cellX;
    }
    startX=15;
+   unsigned int flySum=0;
       
    for(int it=0; it<=2*_M; ++it)
    {
@@ -74,14 +75,19 @@ Plant::Plant(
          if(maxRoominess<roominess)
             maxRoominess=roominess;
          unsigned int flyAmount=(unsigned int)abs(rand());
-         
          for(unsigned int n=0; n<10-_expFlyAmount; ++n)
             flyAmount/=10;
          int trueFlyAmount=flyAmount;
          
          if(flyAmount>roominess)
             trueFlyAmount=roominess;
-            
+         flySum+=trueFlyAmount;
+         
+         /*if(flySum>1)
+         {
+            flySum-=trueFlyAmount;
+            trueFlyAmount=0;
+         } */           
          qDebug()<<"Cell["<<i<<"]["<<j<<"]: roominess="<<roominess<<", fly amount="<<trueFlyAmount;
          shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, cellY/4, this));
          cell->setGeometry(startX, startY, cellX, cellY);
@@ -116,10 +122,10 @@ Plant::Plant(
       startY+=cellY;
       startX=15;
    }
-   unsigned int size=(unsigned int)(sqrt((double)maxRoominess));
-   _flySizeX=(cellX+3)/(size+1);
-   _flySizeY=(cellY+3)/size;
-   qDebug()<<"maxRoominess="<<maxRoominess<<", size="<<size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
+   _size=(unsigned int)(sqrt((double)maxRoominess));
+   _flySizeX=(cellX+3)/(_size+1);
+   _flySizeY=(cellY+3)/_size;
+   qDebug()<<"flySum="<<flySum<<", maxRoominess="<<maxRoominess<<", size="<<_size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
    
    for(shared_ptr<Cell> c :_cells)
    {
@@ -129,24 +135,16 @@ Plant::Plant(
       
       for(unsigned int i=0; i<c->_flies.size(); ++i)
       {
-         connectAndSetFlyWithPlant(c->_flies[i], it, jt);
-         it+=_flySizeX+3;
-         
-         if(it>=(_flySizeX+3)*(size+1))
-         {
-            it=0;
-            jt+=_flySizeY+3;
-         }
+         connectAndSetFlyWithPlant(c->_flies[i], c, it, jt);
+         qDebug()<<"Set cell "<<c->getID()<<": freeX="<<c->getFreeX()<<", freeY="<<c->getFreeY()<<", it="<<it<<", jt="<<jt;
       }
-      c->setFreeX(it);
-      c->setFreeX(jt);
       c->update();
       c->show();
    }
    show();
 }
 
-void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt)
+void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, shared_ptr<Cell> c, unsigned int it, unsigned int jt)
 {
    f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
    f->_clickButton->setEnabled(true);
@@ -166,7 +164,35 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
       f.get(), 
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
+   unsigned int newit=it+_flySizeX+3;
+   unsigned int newjt=jt;
+         
+   if(newit>=(_flySizeX+3)*(_size+1))
+   {
+      newit=0;
+      newjt+=_flySizeY+3;
+   }
+   c->setFreeX(newit);
+   c->setFreeY(newjt);
    f->start();
+}
+
+void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
+{
+   f->exit();
+   disconnect(f.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int)));
+   disconnect(
+      f.get(), 
+      SIGNAL(allreadyChanging(unsigned int, unsigned int, unsigned int)), 
+      this, 
+      SLOT(changeCell(unsigned int, unsigned int, unsigned int))
+   );
+   disconnect(
+      this, 
+      SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int)), 
+      f.get(), 
+      SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int))
+   );
 }
 
 Plant::~Plant()
@@ -197,9 +223,11 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
    while(it<_cells.size()&&_cells[it]->getID()!=oldCellID)
       ++it;
       
-   if(it<_cells.size())
+   if(it<_cells.size()&&flyID!=0)
    {
       shared_ptr<Fly> curFly=_cells[it]->findFlyForID(flyID);
+      disconnectFlyWithPlant(curFly);
+      shared_ptr<Fly> curfly=curFly;
       //qDebug()<<"PlANT: curfly";
       
       if(!curFly->isDead())
@@ -214,34 +242,24 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
             
          if(it_1<_cells.size())
          {
-            _cells[it_1]->insertFly(curFly);
+            _cells[it_1]->insertFly(curfly);
            // qDebug()<<"PlANT: insert fly";
-            unsigned int curFlyID=curFly->getID();
-            unsigned int it_2=0;
-            
-            while(it_2<_cells[it_1]->_flies.size()&&_cells[it_1]->_flies[it_2]->getID()!=curFlyID)
-               ++it_2;
-             //qDebug()<<"PlANT: it_2="<<it_2;
-            
-            if(it_2<_cells[it_1]->_flies.size())
-            {
-               _cells[it_1]->_flies[it_2]->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get()));       
-               _cells[it_1]->_flies[it_2]->_clickButton->setText(QString::number(_cells[it_1]->_flies[it_2]->getID()));  
-               _cells[it_1]->_flies[it_2]->_clickButton->setEnabled(true);
-               connectAndSetFlyWithPlant(_cells[it_1]->_flies[it_2], _cells[it_1]->getFreeX(), _cells[it_1]->getFreeY());
-               //qDebug()<<"PlANT: connect";
-            }
-            else
-               qDebug()<<"Error-0";         
+            _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get()));       
+            _cells[it_1]->_flies.back()->_clickButton->setText(QString::number(_cells[it_1]->_flies.back()->getID()));  
+            _cells[it_1]->_flies.back()->_clickButton->setEnabled(true);
+            _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID);
+            qDebug()<<"cell "<<newCellID<<": freeX="<<_cells[it_1]->getFreeX()<<", freeY="<<_cells[it_1]->getFreeY();
+            connectAndSetFlyWithPlant(_cells[it_1]->_flies.back(), _cells[it_1], _cells[it_1]->getFreeX(), _cells[it_1]->getFreeY());
+                  //qDebug()<<"PlANT: connect";
          }
          else
-            qDebug()<<"Error-1";
-      }
+            qDebug()<<"Error-2";
+      }         
       else
-         qDebug()<<"fly is dead";
+         qDebug()<<"Error-1";
    }
    else
-     qDebug()<<"Error-2";         
+      qDebug()<<"fly is dead";    
 }  
 
 

@@ -52,36 +52,32 @@ Cell::~Cell()
 {
 }
 
-shared_ptr<Fly> Cell::findFlyForID(unsigned int id)
+shared_ptr<Fly>& Cell::findFlyForID(unsigned int id)
 {
-   unsigned int it=0;
-   
-   while(it<_flies.size()&&_flies[it]->getID()!=id)
-      ++it;
-
-   if(it<_flies.size())
-      return _flies[it];
-   return shared_ptr<Fly>(new Fly(0, 0, 0, 0, 0, 0)); 
+   for(shared_ptr<Fly> &value: _flies)
+   {
+      if(value->getID()==id)
+         return value;
+   }
+   shared_ptr<Fly> fly=shared_ptr<Fly>(new Fly(0, 0, 0, 0, 0, 0));
+   return fly; 
 }
 
 void Cell::deleteFly(unsigned int id)
 {
-   unsigned int it=0;
-   
-   while(it<_flies.size()&&_flies[it]->getID()!=id)
-      ++it;
-
-   if(it<_flies.size())
+   for(unsigned int i=0; i<_flies.size(); ++i)
    {
-      setFreeX(_flies[it]->getXinCell());
-      setFreeY(_flies[it]->getYinCell());
-      _flies.erase(_flies.begin()+it);
+      if (_flies[i]->getID()==id)
+      {
+         //setFreeX(_flies[i]->getXinCell());
+         //setFreeY(_flies[i]->getYinCell());
+         _flies.erase(_flies.begin()+i);
+         return;
+      }
    }
 }
 
 void Cell::insertFly(shared_ptr<Fly> fly)
 {
-   shared_ptr<Fly> curFly=fly;
-   curFly->changeCellFromCell(_x, _y, _id);
-   _flies.push_back(curFly);
+   _flies.push_back(fly);
 }

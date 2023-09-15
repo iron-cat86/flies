@@ -4,9 +4,8 @@
 #include <QObject>
 #include <QtWidgets>
 #include <QWidget>
-#include <QPair>
-#include "../fly/fly.h"
 #include <vector>
+#include "../fly/fly.h"
 #include <algorithm>
 #include <iterator>
 #include <memory>
@@ -38,7 +37,7 @@ public:
    unsigned int getFreeX()        const {return _freeX;}
    unsigned int getFreeY()        const {return _freeY;}
    bool         isExist()         const {return _exist;}
-   shared_ptr<Fly> findFlyForID(unsigned int id); 
+   shared_ptr<Fly>& findFlyForID(unsigned int id); 
    void deleteFly(unsigned int id);
    void insertFly(shared_ptr<Fly>);
    void setFreeX(unsigned int freeX) {_freeX=freeX;}
@@ -46,14 +45,14 @@ public:
 public:
    vector<shared_ptr<Fly>> _flies;         //мухи
 private:
-   int                     _x=0;           //х-координата
-   int                     _y=0;           //у-координата
-   unsigned int            _flyRoominess=0;//мухоемкость
-   unsigned int            _range=0;       //размер поля
-   unsigned int            _id;            //идентификатор ячейки
-   unsigned int            _freeX=0;       //первая свободная для мухи Х-координата
-   unsigned int            _freeY=0;       //первая свободная для мухи Y-координата
-   bool                    _exist=true;    //существование ячейки на поле
+   int                    _x=0;           //х-координата
+   int                    _y=0;           //у-координата
+   unsigned int           _flyRoominess=0;//мухоемкость
+   unsigned int           _range=0;       //размер поля
+   unsigned int           _id;            //идентификатор ячейки
+   unsigned int           _freeX=0;       //первая свободная для мухи Х-координата
+   unsigned int           _freeY=0;       //первая свободная для мухи Y-координата
+   bool                   _exist=true;    //существование ячейки на поле
 };
 
 #endif //CELL_H
