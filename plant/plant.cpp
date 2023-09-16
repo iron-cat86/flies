@@ -123,7 +123,7 @@ Plant::Plant(
       startY+=cellY;
       startX=15;
    }
-   _size=(unsigned int)(sqrt((double)maxRoominess));
+   _size=(unsigned int)(sqrt((double)min(flySum, maxRoominess)));
    _flySizeX=(cellX+3)/(_size+1);
    _flySizeY=(cellY+3)/_size;
    qDebug()<<"flySum="<<flySum<<", maxRoominess="<<maxRoominess<<", size="<<_size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;

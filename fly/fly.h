@@ -66,17 +66,7 @@ public slots:
 public:
    shared_ptr<QPushButton> _clickButton;
 private:
-   bool cellIsMine(int x, int y); //клетка моя
-   bool cellIsExist(int x, int y);//проверить существование клетки
    bool changeCell(int x, int y); //сменить клетку
-   bool tryTop(int x, int y);
-   bool tryTopRight(int x, int y);
-   bool tryRight(int x, int y);
-   bool tryRightDown(int x, int y);
-   bool tryDown(int x, int y);
-   bool tryLeftDown(int x, int y);
-   bool tryLeft(int x, int y);
-   bool tryLeftTop(int x, int y);
    bool tryCell(int x, int y);
    void beFoolish();              //тупить
 private:
