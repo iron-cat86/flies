@@ -114,6 +114,7 @@ Plant::Plant(
             cell->_flies.back()->_clickButton->setEnabled(true); 
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();
          }
+         cell->setFlyAmount(trueFlyAmount);
          cell->show();
          _cells.push_back(cell);
          //qDebug()<<"Cell with id "<<_cells.back()->getID()<<" is added suxessfully.";
@@ -129,52 +130,87 @@ Plant::Plant(
    
    for(shared_ptr<Cell> c :_cells)
    {
-      qDebug()<<"Cell "<<c->getID()<<":";
+      qDebug()<<"Cell "<<c->getID()<<": fl amount="<<c->_flies.size();
       unsigned int it=0;
       unsigned int jt=0;
+      unsigned int innercellid=0;
       
       for(unsigned int i=0; i<c->_flies.size(); ++i)
       {
-         connectAndSetFlyWithPlant(c->_flies[i], c, it, jt);
-         qDebug()<<"Set cell "<<c->getID()<<": freeX="<<c->getFreeX()<<", freeY="<<c->getFreeY()<<", it="<<it<<", jt="<<jt;
+         connectAndSetFlyWithPlant(c->_flies[i], it, jt);
+         //qDebug()<<"i="<<i<<": connect";
+         shared_ptr<InnerCell> innercell=shared_ptr<InnerCell>(new InnerCell(innercellid, false, it, jt));
+         //qDebug()<<"i="<<i<<": innercell";
+         c->_innerCell.push_back(innercell);
+         //qDebug()<<"i="<<i<<": push back inner cell";
+         c->_flies[i]->setInnerCellID(innercellid);
+         //qDebug()<<"Set cell "<<c->getID()<<": innerCellID="<<innercellid<<", it="<<it<<", jt="<<jt;
+         it+=_flySizeX+3;
+         
+         if(it>=(_flySizeX+3)*(_size+1))
+         {
+            it=0;
+            jt+=_flySizeY+3;
+         }
+         ++innercellid;
       }
+      
+      while(jt<(_flySizeY+3)*_size)
+      {
+         shared_ptr<InnerCell> innercell=shared_ptr<InnerCell>(new InnerCell(innercellid, true, it, jt));
+         //qDebug()<<"innercellid="<<innercellid<<": new it="<<it<<", jt="<<jt;
+         c->_innerCell.push_back(innercell);
+         //qDebug()<<"innercellid="<<innercellid<<": push_back";
+         it+=_flySizeX+3;
+         //qDebug()<<"innercellid="<<innercellid<<": ch it";
+         
+         if(it>=(_flySizeX+3)*(_size+1))
+         {
+            it=0;
+            jt+=_flySizeY+3;
+           // qDebug()<<"innercellid="<<innercellid<<": ch it & jt";
+         }
+         //qDebug()<<"innercellid="<<innercellid<<": if";
+         ++innercellid;
+         //qDebug()<<"innercellid="<<innercellid<<": incr id";
+      }
+      //qDebug()<<"cycle over";
       c->update();
+      //qDebug()<<"c update";
       c->show();
+      //qDebug()<<"c show";
    }
+   //qDebug()<<"cells over";
    show();
+   //qDebug()<<"show";
 }
 
-void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, shared_ptr<Cell> c, unsigned int it, unsigned int jt)
+void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt)
 {
    f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
-   f->_clickButton->setEnabled(true);
-   f->_clickButton->show();
-   f->setXinCell(it);
-   f->setYinCell(jt);
-   connect(f.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int)));
+   //qDebug()<<"set geometry";
+   f->_clickButton->setEnabled(true); 
+   //qDebug()<<"set enabled";
+   f->_clickButton->show(); 
+   //qDebug()<<"show";
+   connect(f.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int))); 
+  // qDebug()<<"connect1";
    connect(
       f.get(), 
       SIGNAL(allreadyChanging(unsigned int, unsigned int, unsigned int)), 
       this, 
       SLOT(changeCell(unsigned int, unsigned int, unsigned int))
    );
+   //qDebug()<<"connect2";
    connect(
       this, 
-      SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int)), 
+      SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, int, int)), 
       f.get(), 
-      SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int))
+      SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
-   unsigned int newit=it+_flySizeX+3;
-   unsigned int newjt=jt;
-         
-   if(newit>=(_flySizeX+3)*(_size+1))
-   {
-      newit=0;
-      newjt+=_flySizeY+3;
-   }
-   c->setFreeX(newit);
-   c->setFreeY(newjt);
+   //qDebug()<<"connect3";
    f->start();
+   //qDebug()<<"start";
 }
 
 void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
@@ -189,9 +225,9 @@ void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
    );
    disconnect(
       this, 
-      SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int)), 
+      SIGNAL(giveCell(unsigned int, unsigned int, unsigned int, unsigned int, int, int)), 
       f.get(), 
-      SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, int, int))
+      SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
 }
 
@@ -208,9 +244,7 @@ void Plant::giveCellInfo(unsigned int qID, int x, int y)
          qID, 
          newcell->getFlyAmount(), 
          newcell->getFlyRoominess(), 
-         newcell->getID(), 
-         newcell->getFreeX(), 
-         newcell->getFreeY(), 
+         newcell->getID(),  
          newcell->getX(), 
          newcell->getY()
       ); 
@@ -230,8 +264,9 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
       shared_ptr<Fly> curfly=curFly;
       //qDebug()<<"PlANT: curfly";
       
-      if(!curFly->isDead())
-      {
+      if(_cells[it]->decrFlyAmount())
+      { 
+         _cells[it]->_innerCell[curFly->getInnerCellID()]->setFree();
          _cells[it]->deleteFly(flyID);
          //qDebug()<<"PlANT: delete fly";
          unsigned int it_1=0;
@@ -240,17 +275,33 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
             ++it_1;
          //qDebug()<<"PlANT: it_1="<<it_1;
             
-         if(it_1<_cells.size())
+         if(it_1<_cells.size()&&_cells[it_1]->incrFlyAmount())
          {
-            _cells[it_1]->insertFly(curfly);
-           // qDebug()<<"PlANT: insert fly";
-            _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get()));       
-            _cells[it_1]->_flies.back()->_clickButton->setText(QString::number(_cells[it_1]->_flies.back()->getID()));  
-            _cells[it_1]->_flies.back()->_clickButton->setEnabled(true);
-            _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID);
-            qDebug()<<"cell "<<newCellID<<": freeX="<<_cells[it_1]->getFreeX()<<", freeY="<<_cells[it_1]->getFreeY();
-            connectAndSetFlyWithPlant(_cells[it_1]->_flies.back(), _cells[it_1], _cells[it_1]->getFreeX(), _cells[it_1]->getFreeY());
-                  //qDebug()<<"PlANT: connect";
+            unsigned int inner_it=0;
+            
+            while(inner_it<_cells[it_1]->_innerCell.size()&&!_cells[it_1]->_innerCell[inner_it]->isFree())
+               ++inner_it;
+            
+            if(inner_it<_cells[it_1]->_innerCell.size())
+            {
+               _cells[it_1]->_innerCell[inner_it]->setLock();
+               _cells[it_1]->insertFly(curfly);
+               // qDebug()<<"PlANT: insert fly";
+               _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get())); 
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button created;";      
+               _cells[it_1]->_flies.back()->_clickButton->setText(QString::number(_cells[it_1]->_flies.back()->getID())); 
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button setText="<<(QString::number(_cells[it_1]->_flies.back()->getID()));  
+               _cells[it_1]->_flies.back()->_clickButton->setEnabled(true); 
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button set enabled true;";      
+               _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID); 
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button change cell from cell;";      
+               _cells[it_1]->_flies.back()->setInnerCellID(_cells[it_1]->_innerCell[inner_it]->getID());
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": set inner cell;";      
+               connectAndSetFlyWithPlant(_cells[it_1]->_flies.back(), _cells[it_1]->_innerCell[inner_it]->getX(), _cells[it_1]->_innerCell[inner_it]->getY());
+               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": connect;";
+            }
+            else
+               qDebug()<<"Error-3";
          }
          else
             qDebug()<<"Error-2";

@@ -27,7 +27,8 @@ _milage(fly->getMilage()),
 _velocity(fly->getVelocity()),
 _death(fly->isDead()),
 _info(fly->getCellInfo()),
-_cellID(fly->getCellID())
+_cellID(fly->getCellID()),
+_innerCellID(fly->getInnerCellID())
 {
 }
 
@@ -116,7 +117,7 @@ bool Fly::tryCell(int x, int y)
       beFoolish();
       bool exist=cellIsExist(x, y);
       bool change=exist?changeCell(x, y):false;
-      qDebug()<<"("<<x<<", "<<y<<"): exist="<<exist<<", change="<<change;
+      //qDebug()<<"("<<x<<", "<<y<<"): exist="<<exist<<", change="<<change;
       return exist&&change;
    }
    return false;
@@ -248,8 +249,6 @@ void Fly::getCellInfo(
       unsigned int flyAmount,
       unsigned int flyRoominess,
       unsigned int ID,
-      unsigned int freeX,
-      unsigned int freeY,
       int          x,
       int          y
       )
@@ -259,8 +258,6 @@ void Fly::getCellInfo(
       _info.flyAmount=flyAmount;
       _info.flyRoominess=flyRoominess;
       _info.ID=ID;
-      _info.freeX=freeX;
-      _info.freeY=freeY;
       _info.x=x;
       _info.y=y;
    }
@@ -274,7 +271,7 @@ void Fly::beFoolish()
    _age+=_T;
    //qDebug()<<_id<<": age="<<_age;
       
-   if(_age>=(2*_range+1)*_T)
-      _death=true;
-   qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
+   //if(_age>=(2*_range+1)*_T)
+     // _death=true;
+  // qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
 }

@@ -32,22 +32,6 @@ Cell::Cell(
       _exist=false;
 }
 
-Cell::Cell(shared_ptr<Cell> cell, QWidget *parent):
-   QLabel(parent)
-{
-   _x=cell->getX();//х-координата
-   _y=cell->getY();//у-координата
-   _flyRoominess=cell->getFlyRoominess();//мухоемкость
-   _range=cell->getRange();//размер поля
-   _id=cell->getID();//идентификатор ячейки
-   _exist=cell->isExist();
-   setFreeX(cell->getFreeX());
-   setFreeY(cell->getFreeY());
-   
-   for(shared_ptr<Fly> f: cell->_flies)
-      _flies.push_back(f);
-}
-
 Cell::~Cell()
 {
 }
@@ -69,8 +53,6 @@ void Cell::deleteFly(unsigned int id)
    {
       if (_flies[i]->getID()==id)
       {
-         //setFreeX(_flies[i]->getXinCell());
-         //setFreeY(_flies[i]->getYinCell());
          _flies.erase(_flies.begin()+i);
          return;
       }

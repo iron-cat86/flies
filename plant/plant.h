@@ -27,15 +27,13 @@ signals:
       unsigned int flyAmount,
       unsigned int flyRoominess,
       unsigned int ID,
-      unsigned int freeX,
-      unsigned int freeY,
       int          x,
       int          y);
 public slots:
    void giveCellInfo(unsigned int qID, int x, int y);
    void changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID);
 private:
-   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, shared_ptr<Cell> c, unsigned int it, unsigned int jt);
+   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
    void disconnectFlyWithPlant(shared_ptr<Fly> f);
    shared_ptr<Cell> findCellWithCoordinates(int x, int y);
 private:
