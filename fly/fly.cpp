@@ -61,6 +61,9 @@ bool Fly::tryCell()
 void Fly::run()
 { 
    while(!(tryCell()||_death));
+   
+   if(_death)
+      emit died();
    return;
 }
 
@@ -68,7 +71,7 @@ bool Fly::changeCell(int x, int y)
 {
    while(!(_info.x==x&&_info.y==y))
       emit questionInfo(_id, x, y);
-   qDebug()<<"Past x="<<x<<", y="<<y<<". info: "<<_info.x<<", "<<_info.y;
+   //qDebug()<<"Past x="<<x<<", y="<<y<<". info: "<<_info.x<<", "<<_info.y;
          
    if(
       !_death&&//я не дохлая
@@ -113,30 +116,30 @@ void Fly::beFoolish()
       _death=true;
       _clickButton->setIcon(QIcon("../mainwindow/dead.jpg"));
    }
-   qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
+  // qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
 }
 
 void Fly::onClicked()
 {
    QString text="I'm fly, id-";
    text+=QString::number(_id);
-   text+=": age=";
+   text+=": \nage=";
    text+=QString::number(_age);
-   text+=", stupit level=";
+   text+=", \nstupit level=";
    text+=QString::number(_T);
-   text+=", milage=";
+   text+=", \nmilage=";
    text+=QString::number(_milage);
-   text+=", velocity=";
+   text+=", \nvelocity=";
    text+=QString::number(_velocity);
-   text+=", my cell now: x=";
+   text+=", \nmy cell now: x=";
    text+=QString::number(_x);
    text+=", y=";
    text+=QString::number(_y);
    text+="(cell-id=";
    text+=QString::number(_cellID);
    text+=") on plant with range=";
-   text+=QString::number(_range);
-   text+=". Am I alive? ";
+   text+=QString::number(2*_range+1);
+   text+=". \nAm I alive? ";
    text+=(_death?"No":"Yes");
    emit infoFromFly(_iconName, text);
 }

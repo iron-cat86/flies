@@ -31,10 +31,12 @@ signals:
       int          x,
       int          y);
    void flyInfoIsGetted(QString &icon, QString &text);
+   void allFliesDead();
 public slots:
    void giveCellInfo(unsigned int qID, int x, int y);
    void changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID);
    void onInfoFromFly(QString &icon, QString &text);
+   void onDeadFly();
 private:
    void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
    void disconnectFlyWithPlant(shared_ptr<Fly> f);
@@ -47,6 +49,8 @@ private:
    unsigned int _flySizeX=0;              //размер мухи по Х
    unsigned int _flySizeY=0;              //размер мухи по Y
    unsigned int _size=0;                  //размер ячейи в мухах
+   unsigned int _flySum=0;                //общее колличество мух
+   unsigned int _deadFlySum=0;            //количество дохлых мух
    vector<shared_ptr<Cell>>   _cells;     //ячейки
    vector<shared_ptr<QLabel>> _axisLabelY;//подписи по оси Y
    vector<shared_ptr<QLabel>> _axisLabelX;//подписи по оси Х

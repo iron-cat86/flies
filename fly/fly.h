@@ -55,6 +55,7 @@ signals:
    void questionInfo(unsigned int myID, int x, int y);
    void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
    void infoFromFly(QString &icon, QString &text);
+   void died();
 protected:
    virtual void run();
 public slots:

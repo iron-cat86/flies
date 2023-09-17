@@ -22,22 +22,14 @@ _expStupit(expStupit)
     _running->setText("&Run");
     _running->show();
     connect(_running.get(), SIGNAL(clicked()), this, SLOT(runFlies()));
-    _flyIcon=shared_ptr<QLabel>(new QLabel(this));
-    _flyIcon->setGeometry(300, 50, 100, 100);
-    _flyIcon->setUpdatesEnabled(true);
-    _flyIcon->show();
-    _flyInfo=shared_ptr<QLabel>(new QLabel(this));
-    _flyInfo->setGeometry(450, 50, 1000, 100);
-    _flyInfo->setUpdatesEnabled(true);
-    _flyInfo->setStyleSheet("QLabel {  border: 1px solid gray;"
-                            "border-radius: 3px;"
-                            "background-color: #ffffff; }");
-    _flyInfo->show();
 }
 
 MainWindow::~MainWindow()
 {
    disconnect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
+   disconnect(_plant.get(), SIGNAL(allFliesDead()), this, SLOT(onAllDead()));
+   disconnect(_aboutAction.get(), SIGNAL(triggered()), this, SLOT(about()));
+   disconnect(_running.get(), SIGNAL(clicked()), this, SLOT(runFlies()));
 }
 
 void MainWindow::about()
@@ -48,9 +40,24 @@ void MainWindow::about()
 
 void MainWindow::runFlies()
 {
+   _flyInfo.reset();
+   _flyIcon.reset();
+   _flyIcon=shared_ptr<QLabel>(new QLabel(this));
+   _flyIcon->setGeometry(950, 50, 100, 100);
+   _flyIcon->setUpdatesEnabled(true);
+   _flyIcon->show();
+   _flyInfo=shared_ptr<QLabel>(new QLabel(this));
+   _flyInfo->setGeometry(1050, 50, 400, 100);
+   _flyInfo->setUpdatesEnabled(true);
+   _flyInfo->setStyleSheet("QLabel {  border: 1px solid gray;"
+                           "border-radius: 3px;"
+                           "background-color: #ffffff; }");
+   _flyInfo->show();
+   _plant.reset();
    _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit, this));
    _running->setEnabled(false);
    connect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
+   connect(_plant.get(), SIGNAL(allFliesDead()), this, SLOT(onAllDead()));
 }
 
 void MainWindow::onFlyInfoFromPlant(QString &icon, QString &text)
@@ -68,4 +75,9 @@ void MainWindow::onFlyInfoFromPlant(QString &icon, QString &text)
    _flyIcon->show();
    _flyInfo->setText(text);
    _flyInfo->update();
+}
+
+void MainWindow::onAllDead()
+{
+   _running->setEnabled(true);
 }

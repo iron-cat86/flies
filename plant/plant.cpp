@@ -48,7 +48,6 @@ Plant::Plant(
       startX+=cellX;
    }
    startX=15;
-   unsigned int flySum=0;
    int numName=0;   
    for(int it=0; it<=2*_M; ++it)
    {
@@ -66,7 +65,7 @@ Plant::Plant(
       for(int jt=0; jt<=2*_M; ++jt)
       {
          int j=jt-_M;
-         qDebug()<<"["<<i<<"]["<<j<<"]";
+         //qDebug()<<"["<<i<<"]["<<j<<"]";
          int power=1;
          
          for(unsigned int n=0; n<_expRoominess; ++n)
@@ -84,14 +83,14 @@ Plant::Plant(
          
          if(flyAmount>roominess)
             trueFlyAmount=roominess;
-         flySum+=trueFlyAmount;
+         _flySum+=trueFlyAmount;
          
          /*if(flySum>1)
          {
             flySum-=trueFlyAmount;
             trueFlyAmount=0;
          } */           
-         qDebug()<<"Cell["<<i<<"]["<<j<<"]: roominess="<<roominess<<", fly amount="<<trueFlyAmount;
+         //qDebug()<<"Cell["<<i<<"]["<<j<<"]: roominess="<<roominess<<", fly amount="<<trueFlyAmount;
          shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, _M, idCell, cellY/4, this));
          cell->setGeometry(startX, startY, cellX, cellY);
          cell->setAlignment(Qt::AlignCenter);
@@ -101,7 +100,7 @@ Plant::Plant(
          cellName+=")";
          cell->setText(cellName);
          startX+=cellX; 
-         qDebug()<<"Cell with id "<<idCell<<" is created.";
+         //qDebug()<<"Cell with id "<<idCell<<" is created.";
          
          for(unsigned int k=0; k<trueFlyAmount; ++k)
          {
@@ -112,7 +111,7 @@ Plant::Plant(
             unsigned int T=(unsigned int)(abs(rand()%power));
             shared_ptr<Fly> curfly=shared_ptr<Fly>(new Fly(idCell+k, T, cell->getX(), cell->getY(), _M, idCell));
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
-            qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
+            //qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
             cell->_flies.push_back(curfly);         
             cell->_flies.back()->_clickButton->setEnabled(true);
             QString iconName="../mainwindow/icon";
@@ -134,14 +133,14 @@ Plant::Plant(
       startY+=cellY;
       startX=15;
    }
-   _size=(unsigned int)(sqrt((double)min(flySum, maxRoominess)));
+   _size=(unsigned int)(sqrt((double)min(_flySum, maxRoominess)));
    _flySizeX=(cellX+3)/(_size+1);
    _flySizeY=(cellY+3)/_size;
-   qDebug()<<"flySum="<<flySum<<", maxRoominess="<<maxRoominess<<", size="<<_size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
+   qDebug()<<"flySum="<<_flySum<<", maxRoominess="<<maxRoominess<<", size="<<_size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
    
    for(shared_ptr<Cell> c :_cells)
    {
-      qDebug()<<"Cell "<<c->getID()<<": fl amount="<<c->_flies.size();
+      //qDebug()<<"Cell "<<c->getID()<<": fl amount="<<c->_flies.size();
       unsigned int it=0;
       unsigned int jt=0;
       unsigned int innercellid=0;
@@ -239,6 +238,7 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
    connect(f.get(), SIGNAL(infoFromFly(QString&, QString&)), this, SLOT(onInfoFromFly(QString&, QString&)));
+   connect(f.get(), SIGNAL(died()), this, SLOT(onDeadFly()));
    //qDebug()<<"connect3";
    f->start();
    //qDebug()<<"start";
@@ -261,6 +261,7 @@ void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
    disconnect(f.get(), SIGNAL(infoFromFly(QString&, QString&)), this, SLOT(onInfoFromFly(QString&, QString&)));
+   disconnect(f.get(), SIGNAL(died()), this, SLOT(onDeadFly()));
 }
 
 void Plant::giveCellInfo(unsigned int qID, int x, int y)
@@ -350,4 +351,12 @@ shared_ptr<Cell> Plant::findCellWithCoordinates(int x, int y)
    }
    shared_ptr<Cell> notExist=shared_ptr<Cell>(new Cell(x, y, 0, 0, _M, 0, 0));
    return notExist; 
+}
+
+void Plant::onDeadFly()
+{
+   ++_deadFlySum;
+   //qDebug()<<"dead "<<_deadFlySum<<", flySum="<<_flySum;
+   if(_deadFlySum==_flySum)
+      emit allFliesDead();
 }

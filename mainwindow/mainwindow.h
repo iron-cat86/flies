@@ -28,6 +28,7 @@ public slots:
    void about();
    void runFlies();
    void onFlyInfoFromPlant(QString &icon, QString &text);
+   void onAllDead();
 private:
    unsigned int            _range=0;        //размер квадрата
    unsigned int            _expRoominess=0; //порядок мухоемкостей
