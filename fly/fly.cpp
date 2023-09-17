@@ -113,7 +113,7 @@ void Fly::beFoolish()
    if(_age>=(2*_range+1)*_T)
    {
       _death=true;
-      _clickButton->setIcon(QIcon("../mainwindow/muha1.png"));
+      _clickButton->setIcon(QIcon("../mainwindow/dead.jpg"));
    }
    qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
 }

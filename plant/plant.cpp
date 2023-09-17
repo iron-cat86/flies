@@ -49,7 +49,7 @@ Plant::Plant(
    }
    startX=15;
    unsigned int flySum=0;
-      
+   int numName=0;   
    for(int it=0; it<=2*_M; ++it)
    {
       int i=it-_M;
@@ -114,7 +114,15 @@ Plant::Plant(
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
             cell->_flies.push_back(curfly);         
-            cell->_flies.back()->_clickButton->setEnabled(true); 
+            cell->_flies.back()->_clickButton->setEnabled(true);
+            QString iconName="../mainwindow/icon";
+            iconName+=QString::number(numName);
+            iconName+=".jpg";
+            cell->_flies.back()->setIconName(iconName);
+            ++numName;
+            
+            if(numName>30)
+               numName=0; 
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();
          }
          cell->setFlyAmount(trueFlyAmount);
@@ -199,7 +207,7 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
                     "background: rgba(0,0,0,0);"
             "}");
    f->_clickButton->setStyleSheet(styleButton);
-   f->_clickButton->setIcon(QIcon("../mainwindow/icon.jpg"));
+   f->_clickButton->setIcon(QIcon(f->getIconName()));
    //qDebug()<<"set geometry";
    f->_clickButton->setEnabled(true); 
    connect(f->_clickButton.get(), SIGNAL(clicked()), f.get(), SLOT(onClicked()));

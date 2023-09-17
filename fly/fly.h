@@ -47,8 +47,10 @@ public:
    int                 getX()           const {return _x;}
    int                 getY()           const {return _y;}
    CellInfo            getCellInfo()    const {return _info;}
+   QString             getIconName()    const {return _iconName;}
    void changeCellFromCell(int x, int y, unsigned int cellID);
    void setInnerCellID(unsigned int innerCellID) {_innerCellID=innerCellID;}
+   void setIconName(QString &name)               {_iconName=name;}
 signals:
    void questionInfo(unsigned int myID, int x, int y);
    void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
@@ -72,18 +74,19 @@ private:
    bool tryCell();
    void beFoolish();              //тупить
 private:
-   unsigned int _id=0;         //идентификатор мухи
-   unsigned int _cellID=0;     //идентификатор ячейки в которой муха
-   unsigned int _T=0;          //степень врожденной тупости
-   unsigned int _age=0;        //возраст
-   unsigned int _range=0;      //размерность поля
-   unsigned int _innerCellID=0;//идентификатор внутренненй ячейки для мухи
-   double       _milage=0.;    //пробег   
-   bool         _death=false;  //дохлость
-   double       _velocity=0.;  //скорость 
-   int          _x=0;          //клетка, в которой муха находится
+   unsigned int _id=0;                              //идентификатор мухи
+   unsigned int _cellID=0;                          //идентификатор ячейки в которой муха
+   unsigned int _T=0;                               //степень врожденной тупости
+   unsigned int _age=0;                             //возраст
+   unsigned int _range=0;                           //размерность поля
+   unsigned int _innerCellID=0;                     //идентификатор внутренненй ячейки для мухи
+   double       _milage=0.;                         //пробег   
+   bool         _death=false;                       //дохлость
+   double       _velocity=0.;                       //скорость 
+   int          _x=0;                               //клетка, в которой муха находится
    int          _y=0;
-   CellInfo     _info;         //информация о потенциальной ячейке
+   CellInfo     _info;                              //информация о потенциальной ячейке
+   QString      _iconName="../mainwindow/icon.jpg"; //имя иконки для кнопки
 };
 
 #endif//FLY_H
