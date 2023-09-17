@@ -38,8 +38,7 @@ public:
       int          x, 
       int          y, 
       unsigned int flyRoominess, 
-      unsigned int flyAmount, 
-      unsigned int range,
+      unsigned int flyAmount,
       unsigned int id,
       unsigned int height,
       QWidget     *parent=nullptr
@@ -50,8 +49,6 @@ public:
    unsigned int getFlyAmount()    const {return _flyAmount;}
    unsigned int getFlyRoominess() const {return _flyRoominess;}
    unsigned int getID()           const {return _id;}   
-   unsigned int getRange()        const {return _range;}
-   bool         isExist()         const {return _exist;}
    shared_ptr<Fly>& findFlyForID(unsigned int id); 
    void setFlyAmount(unsigned int flyAmount) {_flyAmount=flyAmount;}
    void deleteFly(unsigned int id);
@@ -77,15 +74,13 @@ public:
    }
 public:
    vector<shared_ptr<Fly>>       _flies;         //мухи
-   vector<shared_ptr<InnerCell>> _innerCell;//внутренние ячейки
+   vector<shared_ptr<InnerCell>> _innerCell;     //внутренние ячейки
 private:
    int                           _x=0;           //х-координата
    int                           _y=0;           //у-координата
    unsigned int                  _flyRoominess=0;//мухоемкость
    unsigned int                  _flyAmount=0;   //количество мух
-   unsigned int                  _range=0;       //размер поля
    unsigned int                  _id;            //идентификатор ячейки
-   bool                          _exist=true;    //существование ячейки на поле
 };
 
 #endif //CELL_H

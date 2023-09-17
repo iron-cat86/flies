@@ -16,10 +16,13 @@ class Plant: public QGroupBox
 Q_OBJECT
 public:
    Plant(
-      unsigned int M, 
-      unsigned int expRoominess, 
-      unsigned int expFlyAmount, 
-      unsigned int expStupit, 
+      unsigned int range=1,          //размер квадрата от 0 (при 1: от -1 до 1, то есть 3 на 3)
+      unsigned int minRoominess=10,  //минимальная мухоемкость
+      unsigned int maxRoominess=100, //максимальная мухоемкость
+      unsigned int minFlyAmount=0,   //минимальное количество мух в одной ячейке
+      unsigned int maxFlyAmount=10,  //максимальное количество мух в одной ячейке
+      unsigned int minStupidity=0,   //минимальная тупость мухи, в секундах
+      unsigned int maxStupidity=10,  //максимальная тупость мухи, в секундах 
       QWidget *parent = nullptr);
    ~Plant();
 signals:
@@ -42,13 +45,8 @@ private:
    void disconnectFlyWithPlant(shared_ptr<Fly> f);
    shared_ptr<Cell> findCellWithCoordinates(int x, int y);
 private:
-   unsigned int _M=10;                    //размер квадрата
-   unsigned int _expRoominess=0;          //порядок мухоемкостей
-   unsigned int _expFlyAmount=0;          //порядок количеств мух в ячейках
-   unsigned int _expStupit=0;             //порядок тупостей мух, в секундах
    unsigned int _flySizeX=0;              //размер мухи по Х
    unsigned int _flySizeY=0;              //размер мухи по Y
-   unsigned int _size=0;                  //размер ячейи в мухах
    unsigned int _flySum=0;                //общее колличество мух
    unsigned int _deadFlySum=0;            //количество дохлых мух
    vector<shared_ptr<Cell>>   _cells;     //ячейки

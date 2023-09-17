@@ -1,10 +1,6 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(unsigned int range, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit):
-_range(range),
-_expRoominess(expRoominess), 
-_expFlyAmount(expFlyAmount), 
-_expStupit(expStupit)
+MainWindow::MainWindow()
 {
     this->setGeometry(50,50, 1500, 1000);
     setWindowIcon(QIcon("../mainwindow/icon.jpg"));
@@ -54,7 +50,7 @@ void MainWindow::runFlies()
                            "background-color: #ffffff; }");
    _flyInfo->show();
    _plant.reset();
-   _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit, this));
+   _plant=shared_ptr<Plant>(new Plant(1, 10, 100, 0, 10, 0, 10, this));
    _running->setEnabled(false);
    connect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
    connect(_plant.get(), SIGNAL(allFliesDead()), this, SLOT(onAllDead()));

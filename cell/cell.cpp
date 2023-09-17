@@ -7,8 +7,7 @@ Cell::Cell(
       int          x, 
       int          y, 
       unsigned int flyRoominess,
-      unsigned int flyAmount, 
-      unsigned int range, 
+      unsigned int flyAmount,
       unsigned int id,
       unsigned int height,
       QWidget     *parent
@@ -18,18 +17,12 @@ Cell::Cell(
    _x=x;
    _y=y;
    _flyRoominess=flyRoominess;
-   _range=range;
    _id=id;
    setStyleSheet(QString("color: rgb(255, 127, 50);"
                                      "font-size: %1px").arg(height));
    setStyleSheet("QLabel { border: 1px solid gray;"
                             "border-radius: 3px;"
                             "background-color: #ffffff;}");
-   if(
-      abs(_x)>abs((int)_range)||
-      abs(_y)>abs((int)_range)
-   )
-      _exist=false;
 }
 
 Cell::~Cell()

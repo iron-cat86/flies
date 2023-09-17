@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(unsigned int range, unsigned int expRoominess, unsigned int expFlyAmount, unsigned int expStupit);
+    MainWindow();
     ~MainWindow();
 public slots:
    void about();
@@ -30,15 +30,11 @@ public slots:
    void onFlyInfoFromPlant(QString &icon, QString &text);
    void onAllDead();
 private:
-   unsigned int            _range=0;        //размер квадрата
-   unsigned int            _expRoominess=0; //порядок мухоемкостей
-   unsigned int            _expFlyAmount=0; //порядок количеств мух в ячейках
-   unsigned int            _expStupit=0;    //порядок тупостей мух, в секундах
-   shared_ptr<QAction>     _aboutAction;
-   shared_ptr<QMenu>       _helpMenu;
-   shared_ptr<QPushButton> _running;
-   shared_ptr<QLabel>      _flyInfo;
-   shared_ptr<QLabel>      _flyIcon;
-   shared_ptr<Plant>       _plant;
+   shared_ptr<QAction>     _aboutAction;      //о приложении
+   shared_ptr<QMenu>       _helpMenu;         //помощь пользователю
+   shared_ptr<QPushButton> _running;          //кнопка запуска
+   shared_ptr<QLabel>      _flyInfo;          //информация о мухе
+   shared_ptr<QLabel>      _flyIcon;          //аватарка мухи
+   shared_ptr<Plant>       _plant;            //поле с ячейками
 };
 #endif
