@@ -196,6 +196,15 @@ Plant::Plant(
    //qDebug()<<"show";
 }
 
+Plant::~Plant()
+{
+   for(shared_ptr<Cell> c :_cells)
+   {
+      for(shared_ptr<Fly> f: c->_flies)
+         disconnectFlyWithPlant(f);
+   }
+}
+
 void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt)
 {
    f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
@@ -229,7 +238,7 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
       f.get(), 
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
-   connect(f.get(), SIGNAL(infoFromFly(QString&)), this, SLOT(onInfoFromFly(QString&)));
+   connect(f.get(), SIGNAL(infoFromFly(QString&, QString&)), this, SLOT(onInfoFromFly(QString&, QString&)));
    //qDebug()<<"connect3";
    f->start();
    //qDebug()<<"start";
@@ -251,11 +260,7 @@ void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
       f.get(), 
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
-   disconnect(f.get(), SIGNAL(infoFromFly(QString&)), this, SLOT(onInfoFromFly(QString&)));
-}
-
-Plant::~Plant()
-{
+   disconnect(f.get(), SIGNAL(infoFromFly(QString&, QString&)), this, SLOT(onInfoFromFly(QString&, QString&)));
 }
 
 void Plant::giveCellInfo(unsigned int qID, int x, int y)
@@ -332,9 +337,9 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
       qDebug()<<"fly is dead";    
 }  
 
-void Plant::onInfoFromFly(QString &text)
+void Plant::onInfoFromFly(QString &icon, QString &text)
 {
-   emit flyInfoIsGetted(text);
+   emit flyInfoIsGetted(icon, text);
 }
 shared_ptr<Cell> Plant::findCellWithCoordinates(int x, int y)
 {

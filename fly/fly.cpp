@@ -60,9 +60,7 @@ bool Fly::tryCell()
 
 void Fly::run()
 { 
-   qDebug()<<_id<<"-start-"<<_death;
    while(!(tryCell()||_death));
-   qDebug()<<_id<<"-finish-"<<_death;
    return;
 }
 
@@ -140,5 +138,5 @@ void Fly::onClicked()
    text+=QString::number(_range);
    text+=". Am I alive? ";
    text+=(_death?"No":"Yes");
-   emit infoFromFly(text);
+   emit infoFromFly(_iconName, text);
 }

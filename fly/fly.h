@@ -54,7 +54,7 @@ public:
 signals:
    void questionInfo(unsigned int myID, int x, int y);
    void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
-   void infoFromFly(QString &text);
+   void infoFromFly(QString &icon, QString &text);
 protected:
    virtual void run();
 public slots:

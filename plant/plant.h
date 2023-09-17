@@ -30,11 +30,11 @@ signals:
       unsigned int ID,
       int          x,
       int          y);
-   void flyInfoIsGetted(QString &text);
+   void flyInfoIsGetted(QString &icon, QString &text);
 public slots:
    void giveCellInfo(unsigned int qID, int x, int y);
    void changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID);
-   void onInfoFromFly(QString &text);
+   void onInfoFromFly(QString &icon, QString &text);
 private:
    void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
    void disconnectFlyWithPlant(shared_ptr<Fly> f);

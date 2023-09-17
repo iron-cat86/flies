@@ -22,8 +22,12 @@ _expStupit(expStupit)
     _running->setText("&Run");
     _running->show();
     connect(_running.get(), SIGNAL(clicked()), this, SLOT(runFlies()));
+    _flyIcon=shared_ptr<QLabel>(new QLabel(this));
+    _flyIcon->setGeometry(300, 50, 100, 100);
+    _flyIcon->setUpdatesEnabled(true);
+    _flyIcon->show();
     _flyInfo=shared_ptr<QLabel>(new QLabel(this));
-    _flyInfo->setGeometry(350, 50, 1000, 100);
+    _flyInfo->setGeometry(450, 50, 1000, 100);
     _flyInfo->setUpdatesEnabled(true);
     _flyInfo->setStyleSheet("QLabel {  border: 1px solid gray;"
                             "border-radius: 3px;"
@@ -33,6 +37,7 @@ _expStupit(expStupit)
 
 MainWindow::~MainWindow()
 {
+   disconnect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
 }
 
 void MainWindow::about()
@@ -45,11 +50,22 @@ void MainWindow::runFlies()
 {
    _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit, this));
    _running->setEnabled(false);
-   connect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&)), this, SLOT(onFlyInfoFromPlant(QString &)));
+   connect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
 }
 
-void MainWindow::onFlyInfoFromPlant(QString &text)
+void MainWindow::onFlyInfoFromPlant(QString &icon, QString &text)
 {
+   QPixmap pix=QPixmap(icon);
+   pix.scaled(100, 100);
+   _flyIcon->setPixmap(pix);
+   _flyIcon->setScaledContents(true);
+   int pixW = pix.width();
+   int labelW =_flyIcon->width();
+   double factor = double(labelW)/pixW;
+   _flyIcon->setFixedWidth(factor*_flyIcon->pixmap()->width());
+   _flyIcon->setFixedHeight(factor*_flyIcon->pixmap()->height());
+   _flyIcon->update();
+   _flyIcon->show();
    _flyInfo->setText(text);
    _flyInfo->update();
 }
