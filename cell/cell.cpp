@@ -24,7 +24,7 @@ Cell::Cell(
                                      "font-size: %1px").arg(height));
    setStyleSheet("QLabel { border: 1px solid gray;"
                             "border-radius: 3px;"
-                            "margin-top: 1ex; }");
+                            "background-color: #ffffff;}");
    if(
       abs(_x)>abs((int)_range)||
       abs(_y)>abs((int)_range)

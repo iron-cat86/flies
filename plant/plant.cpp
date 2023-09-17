@@ -114,7 +114,6 @@ Plant::Plant(
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
             cell->_flies.push_back(curfly);         
-            cell->_flies.back()->_clickButton->setText(QString::number(idCell+k));  
             cell->_flies.back()->_clickButton->setEnabled(true); 
             //qDebug()<<"Fly is gave to cell, size="<<cell->getFlyAmount();
          }
@@ -192,6 +191,15 @@ Plant::Plant(
 void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt)
 {
    f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
+   QString styleButton=QString(
+            "QAbstractButton {"
+                    "color: rgb(255, 255, 255);"
+                    "border: 0px solid rgb(100,200,200); "
+                    "border-radius: 5px;"
+                    "background: rgba(0,0,0,0);"
+            "}");
+   f->_clickButton->setStyleSheet(styleButton);
+   f->_clickButton->setIcon(QIcon("../mainwindow/icon.jpg"));
    //qDebug()<<"set geometry";
    f->_clickButton->setEnabled(true); 
    connect(f->_clickButton.get(), SIGNAL(clicked()), f.get(), SLOT(onClicked()));
@@ -294,8 +302,6 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
                // qDebug()<<"PlANT: insert fly";
                _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get())); 
                //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button created;";      
-               _cells[it_1]->_flies.back()->_clickButton->setText(QString::number(_cells[it_1]->_flies.back()->getID())); 
-               //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button setText="<<(QString::number(_cells[it_1]->_flies.back()->getID()));  
                _cells[it_1]->_flies.back()->_clickButton->setEnabled(true); 
                //qDebug()<<"Fly "<<_cells[it_1]->_flies.back()->getID()<<"is in cell "<<newCellID<<" from cell "<<oldCellID<<" with coord x="<<_cells[it_1]->_innerCell[inner_it]->getX()<<", y="<<_cells[it_1]->_innerCell[inner_it]->getY()<<": click Button set enabled true;";      
                _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID); 
