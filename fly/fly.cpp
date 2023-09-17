@@ -46,13 +46,13 @@ void Fly::changeCellFromCell(int x, int y, unsigned int cellID)
 
 bool Fly::tryCell()
 {
-   int x=-_range+rand()%(_range+1);
-   int y=-_range+rand()%(_range+1);
+   int x=-_range+rand()%(2*_range+1);
+   int y=-_range+rand()%(2*_range+1);
    
    while(abs(x)>(int)_range||abs(y)>(int)_range||(x==_x&&y==_y))
    {
-      x=-_range+rand()%(_range+1);
-      y=-_range+rand()%(_range+1);
+      x=-_range+rand()%(2*_range+1);
+      y=-_range+rand()%(2*_range+1);
    }   
    beFoolish();
    return changeCell(x, y);

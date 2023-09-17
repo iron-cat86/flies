@@ -88,6 +88,59 @@ void MainWindow::runFlies()
                            "background-color: #ffffff; }");
    _flyInfo->show();
    _plant.reset();
+   
+   if(_rangeEdit->text().toInt()<0)
+      _rangeEdit->setText(QString::number(abs(_rangeEdit->text().toInt())));
+      
+   if(_rangeEdit->text().toInt()==0)
+      _rangeEdit->setText("1");
+      
+   if(_minRoomEdit->text().toInt()<0)
+      _minRoomEdit->setText("0");
+      
+   if(_maxRoomEdit->text().toInt()<0)
+      _maxRoomEdit->setText(QString::number(abs(_maxRoomEdit->text().toInt())));
+      
+   if(_minFlyAmEdit->text().toInt()<0)
+      _minFlyAmEdit->setText("0");
+      
+   if(_maxFlyAmEdit->text().toInt()<0)
+      _maxFlyAmEdit->setText(QString::number(abs(_maxFlyAmEdit->text().toInt())));
+      
+   if(_minFlyStEdit->text().toInt()<0)
+      _minFlyStEdit->setText("0");
+      
+   if(_maxFlyStEdit->text().toInt()<0)
+      _maxFlyStEdit->setText(QString::number(abs(_maxFlyStEdit->text().toInt())));
+   
+   if(_minRoomEdit->text().toInt()>_maxRoomEdit->text().toInt())
+   {   
+      QString maxR=_minRoomEdit->text();
+      _minRoomEdit->setText(_maxRoomEdit->text());
+      _maxRoomEdit->setText(maxR);
+   }
+      
+   if(_minFlyAmEdit->text().toInt()>_maxFlyAmEdit->text().toInt())
+   {   
+      QString maxR=_minFlyAmEdit->text();
+      _minFlyAmEdit->setText(_maxFlyAmEdit->text());
+      _maxFlyAmEdit->setText(maxR);
+   }   
+   if(_minFlyStEdit->text().toInt()>_maxFlyStEdit->text().toInt())
+   {   
+      QString maxR=_minFlyStEdit->text();
+      _minFlyStEdit->setText(_maxFlyStEdit->text());
+      _maxFlyStEdit->setText(maxR);
+   }
+   
+   if(_minRoomEdit->text().toInt()==_maxRoomEdit->text().toInt())
+      _maxRoomEdit->setText(QString::number(_maxRoomEdit->text().toInt()+1));
+      
+   if(_minFlyAmEdit->text().toInt()==_maxFlyAmEdit->text().toInt())
+      _maxFlyAmEdit->setText(QString::number(_maxFlyAmEdit->text().toInt()+1));
+   
+   if(_minFlyStEdit->text().toInt()==_maxFlyStEdit->text().toInt())
+      _maxFlyStEdit->setText(QString::number(_maxFlyStEdit->text().toInt()+1));
    _plant=shared_ptr<Plant>(new Plant(
       (unsigned int)_rangeEdit->text().toInt(), 
       (unsigned int)_minRoomEdit->text().toInt(), (unsigned int)_maxRoomEdit->text().toInt(), 

@@ -27,8 +27,8 @@ Plant::Plant(
    setStyleSheet("QGroupBox { border: 1px solid gray;"
                  "border-radius: 3px;"
                  "margin-top: 1ex; }");
-   int cellX=1370/(2*range+1);
-   int cellY=770/(2*range+1);
+   _cellX=1370/(2*range+1);
+   _cellY=770/(2*range+1);
    int startX=15;
    int startY=15;
    
@@ -38,13 +38,13 @@ Plant::Plant(
       QString axisLabelYtxt=QString::number(j);
       shared_ptr<QLabel> axisLabelY=shared_ptr<QLabel>(new QLabel(this));
       _axisLabelY.push_back(axisLabelY);
-      _axisLabelY.back()->setGeometry(startX, 5, cellX, 15);
+      _axisLabelY.back()->setGeometry(startX, 5, _cellX, 15);
       _axisLabelY.back()->setStyleSheet("QLabel { border: 0px solid gray;"
                                         "border-radius: 0px;"
                                         "margin-top: 0ex; }");
       _axisLabelY.back()->setText(axisLabelYtxt);
       _axisLabelY.back()->show();
-      startX+=cellX;
+      startX+=_cellX;
    }
    startX=15;
    int numName=0;   
@@ -54,7 +54,7 @@ Plant::Plant(
       QString axisLabelXtxt=QString::number(i);
       shared_ptr<QLabel> axisLabelX=shared_ptr<QLabel>(new QLabel(this));
       _axisLabelX.push_back(axisLabelX);
-      _axisLabelX.back()->setGeometry(5, startY, 15, cellY);
+      _axisLabelX.back()->setGeometry(5, startY, 15, _cellY);
       _axisLabelX.back()->setStyleSheet("QLabel { border: 0px solid gray;"
                                         "border-radius: 0px;"
                                         "margin-top: 0ex; }");
@@ -74,14 +74,14 @@ Plant::Plant(
          if(flyAmount>roominess)
             trueFlyAmount=roominess;
          _flySum+=trueFlyAmount;         
-         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, idCell, cellY/4, this));
-         cell->setGeometry(startX, startY, cellX, cellY);
+         shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, idCell, _cellY/4, this));
+         cell->setGeometry(startX, startY, _cellX, _cellY);
          cell->setAlignment(Qt::AlignCenter);
          QString cellName;
          QTextStream stream(&cellName);
          stream<<QString::number(idCell)<<"(r="<<QString::number(roominess)<<")";
          cell->setText(cellName);
-         startX+=cellX; 
+         startX+=_cellX; 
                   
          for(unsigned int k=0; k<trueFlyAmount; ++k)
          {
@@ -104,12 +104,13 @@ Plant::Plant(
          _cells.push_back(cell);
          idCell+=idStep;
       }
-      startY+=cellY;
+      startY+=_cellY;
       startX=15;
    }
    unsigned int size=(unsigned int)(sqrt((double)min(_flySum, maximumRoominess)));
-   _flySizeX=(cellX+3)/(size+1);
-   _flySizeY=(cellY+3)/size;
+   qDebug()<<"fly sum="<<_flySum;
+   _flySizeX=(_cellX+3)/(size+1);
+   _flySizeY=(_cellY+3)/size;
    
    for(shared_ptr<Cell> c :_cells)
    {

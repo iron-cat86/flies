@@ -49,6 +49,8 @@ private:
    unsigned int _flySizeY=0;              //размер мухи по Y
    unsigned int _flySum=0;                //общее колличество мух
    unsigned int _deadFlySum=0;            //количество дохлых мух
+   int          _cellX=0;                 //размер ячейки
+   int          _cellY=0;                 //размер ячейки
    vector<shared_ptr<Cell>>   _cells;     //ячейки
    vector<shared_ptr<QLabel>> _axisLabelY;//подписи по оси Y
    vector<shared_ptr<QLabel>> _axisLabelX;//подписи по оси Х
