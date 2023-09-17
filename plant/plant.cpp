@@ -1,6 +1,7 @@
 #include "plant.h"
 #include <cstdlib>
 #include <QString>
+#include <QTextStream>
 
 using namespace std;
 
@@ -76,10 +77,9 @@ Plant::Plant(
          shared_ptr<Cell> cell=shared_ptr<Cell>(new Cell(i, j, roominess, trueFlyAmount, idCell, cellY/4, this));
          cell->setGeometry(startX, startY, cellX, cellY);
          cell->setAlignment(Qt::AlignCenter);
-         QString cellName=QString::number(idCell);
-         cellName+="(r=";
-         cellName+=QString::number(roominess);
-         cellName+=")";
+         QString cellName;
+         QTextStream stream(&cellName);
+         stream<<QString::number(idCell)<<"(r="<<QString::number(roominess)<<")";
          cell->setText(cellName);
          startX+=cellX; 
                   
@@ -90,9 +90,9 @@ Plant::Plant(
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             cell->_flies.push_back(curfly);         
             cell->_flies.back()->_clickButton->setEnabled(true);
-            QString iconName="../mainwindow/icon";
-            iconName+=QString::number(numName);
-            iconName+=".jpg";
+            QString iconName;
+            QTextStream str(&iconName);
+            str<<"../images/icon"<<QString::number(numName)<<".jpg";
             cell->_flies.back()->setIconName(iconName);
             ++numName;
             
@@ -110,7 +110,6 @@ Plant::Plant(
    unsigned int size=(unsigned int)(sqrt((double)min(_flySum, maximumRoominess)));
    _flySizeX=(cellX+3)/(size+1);
    _flySizeY=(cellY+3)/size;
-   qDebug()<<"flySum="<<_flySum<<", maxRoominess="<<maximumRoominess<<", size="<<size<<", _flySizeX="<<_flySizeX<<", _flySizeY="<<_flySizeY;
    
    for(shared_ptr<Cell> c :_cells)
    {

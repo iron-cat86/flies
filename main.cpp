@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
    QApplication app( argc, argv );   
    shared_ptr<QTime> ti=shared_ptr<QTime>(new QTime);
    ti->start();
-   shared_ptr<QSplashScreen> splash=shared_ptr<QSplashScreen>(new QSplashScreen(QPixmap("../mainwindow/splash.png")));
+   shared_ptr<QSplashScreen> splash=shared_ptr<QSplashScreen>(new QSplashScreen(QPixmap("../images/splash.png")));
    splash->show();
    while(ti->elapsed()<=3000);
    shared_ptr<MainWindow> window=shared_ptr<MainWindow>(new MainWindow());

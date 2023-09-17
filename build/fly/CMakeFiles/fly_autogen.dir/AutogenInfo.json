@@ -1,0 +1,74 @@
+{
+	"BUILD_DIR" : "/home/bel/work/flies/build/fly/fly_autogen",
+	"CMAKE_BINARY_DIR" : "/home/bel/work/flies/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/bel/work/flies/build/fly",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/bel/work/flies/fly",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_LIST_FILES" : [ "/home/bel/work/flies/fly/CMakeLists.txt" ],
+	"CMAKE_SOURCE_DIR" : "/home/bel/work/flies",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"/home/bel/work/flies/fly/fly.h",
+			"Mu",
+			"EWIEGA46WW/moc_fly.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/bel/work/flies/build/fly/fly_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/bel/work/flies/build/fly/fly_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_NO_DEBUG" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+		"/home/bel/work/flies/fly",
+		"/usr/include/x86_64-linux-gnu/qt5",
+		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
+		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
+		"/home/bel/miniconda3/include",
+		"/home/bel/miniconda3/x86_64-conda-linux-gnu/include/c++/11.2.0",
+		"/home/bel/miniconda3/x86_64-conda-linux-gnu/include/c++/11.2.0/x86_64-conda-linux-gnu",
+		"/home/bel/miniconda3/x86_64-conda-linux-gnu/include/c++/11.2.0/backward",
+		"/home/bel/miniconda3/lib/gcc/x86_64-conda-linux-gnu/11.2.0/include",
+		"/home/bel/miniconda3/lib/gcc/x86_64-conda-linux-gnu/11.2.0/include-fixed",
+		"/home/bel/miniconda3/x86_64-conda-linux-gnu/include",
+		"/home/bel/miniconda3/x86_64-conda-linux-gnu/sysroot/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/share/cmake-3.26/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/bel/work/flies/build/fly/fly_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/bel/work/flies/build/fly/CMakeFiles/fly_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 12,
+	"SETTINGS_FILE" : "/home/bel/work/flies/build/fly/CMakeFiles/fly_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[ "/home/bel/work/flies/fly/fly.cpp", "Mu", null ]
+	],
+	"VERBOSITY" : 0
+}

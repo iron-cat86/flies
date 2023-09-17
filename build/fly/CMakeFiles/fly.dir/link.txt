@@ -1,0 +1,2 @@
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ar qc libfly.a CMakeFiles/fly.dir/fly_autogen/mocs_compilation.cpp.o CMakeFiles/fly.dir/fly.cpp.o
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ranlib libfly.a

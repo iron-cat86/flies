@@ -1,0 +1,2 @@
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ar qc libplant.a CMakeFiles/plant.dir/plant_autogen/mocs_compilation.cpp.o CMakeFiles/plant.dir/plant.cpp.o
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ranlib libplant.a

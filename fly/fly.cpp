@@ -114,32 +114,20 @@ void Fly::beFoolish()
    if(_age>=(2*_range+1)*_T)
    {
       _death=true;
-      _clickButton->setIcon(QIcon("../mainwindow/dead.jpg"));
+      _clickButton->setIcon(QIcon("../images/dead.jpg"));
    }
-  // qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
 }
 
 void Fly::onClicked()
 {
-   QString text="I'm fly, id-";
-   text+=QString::number(_id);
-   text+=": \nage=";
-   text+=QString::number(_age);
-   text+=", \nstupit level=";
-   text+=QString::number(_T);
-   text+=", \nmilage=";
-   text+=QString::number(_milage);
-   text+=", \nvelocity=";
-   text+=QString::number(_velocity);
-   text+=", \nmy cell now: x=";
-   text+=QString::number(_x);
-   text+=", y=";
-   text+=QString::number(_y);
-   text+="(cell-id=";
-   text+=QString::number(_cellID);
-   text+=") on plant with range=";
-   text+=QString::number(2*_range+1);
-   text+=". \nAm I alive? ";
-   text+=(_death?"No":"Yes");
+   QString text;
+   QTextStream strm(&text);
+   strm<<"I'm fly, id-"<<QString::number(_id)<<": \nage="
+       <<QString::number(_age)<<", \nstupit level="
+       <<QString::number(_T)<<", \nmilage="
+       <<QString::number(_milage)<<", \nvelocity="
+       <<QString::number(_velocity)<<", \nmy cell now: x="
+       <<QString::number(_x)<<", y="<<QString::number(_y)<<"(cell-id="<<QString::number(_cellID)<<") on plant with range="<<QString::number(2*_range+1)<<". \nAm I alive? "
+       <<(_death?"No":"Yes");
    emit infoFromFly(_iconName, text);
 }

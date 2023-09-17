@@ -1,0 +1,2 @@
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ar qc libmainwindow.a CMakeFiles/mainwindow.dir/mainwindow_autogen/mocs_compilation.cpp.o CMakeFiles/mainwindow.dir/mainwindow.cpp.o
+/home/bel/miniconda3/bin/x86_64-conda-linux-gnu-ranlib libmainwindow.a
