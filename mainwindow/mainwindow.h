@@ -26,6 +26,7 @@ public:
     ~MainWindow();
 public slots:
    void about();
+   void instruction();
    void runFlies();
    void onFlyInfoFromPlant(QString &icon, QString &text);
    void onAllDead();
@@ -43,6 +44,7 @@ private:
 private:
    shared_ptr<Plant>       _plant;            //поле с ячейками
    shared_ptr<QAction>     _aboutAction;      //о приложении
+   shared_ptr<QAction>     _instruction;      //о приложении
    shared_ptr<QMenu>       _helpMenu;         //помощь пользователю
    shared_ptr<QPushButton> _running;          //кнопка запуска
    shared_ptr<QLineEdit>   _rangeEdit;        //настройка уровня размерности поля

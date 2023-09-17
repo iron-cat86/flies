@@ -7,9 +7,13 @@ MainWindow::MainWindow()
     _aboutAction=shared_ptr<QAction>(new QAction(tr("About"), this));
     _aboutAction->setStatusTip(tr("about application"));
     connect(_aboutAction.get(), SIGNAL(triggered()), this, SLOT(about()));
+    _instruction=shared_ptr<QAction>(new QAction(tr("Manual"), this));
+    _instruction->setStatusTip(tr("Manual"));
+    connect(_instruction.get(), SIGNAL(triggered()), this, SLOT(instruction()));
     _helpMenu=shared_ptr<QMenu>(new QMenu(this));
     _helpMenu=shared_ptr<QMenu>(menuBar()->addMenu(tr("&Help")));
     _helpMenu->addAction(_aboutAction.get());
+    _helpMenu->addAction(_instruction.get());
     setAttribute(Qt::WA_DeleteOnClose);
     _running=shared_ptr<QPushButton>(new QPushButton(this));
     _running->setGeometry(50, 50, 200, 100);
@@ -53,6 +57,7 @@ MainWindow::~MainWindow()
    disconnect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&, QString&)), this, SLOT(onFlyInfoFromPlant(QString&, QString&)));
    disconnect(_plant.get(), SIGNAL(allFliesDead()), this, SLOT(onAllDead()));
    disconnect(_aboutAction.get(), SIGNAL(triggered()), this, SLOT(about()));
+   disconnect(_instruction.get(), SIGNAL(triggered()), this, SLOT(instruction()));
    disconnect(_running.get(), SIGNAL(clicked()), this, SLOT(runFlies()));
 }
 
@@ -60,6 +65,12 @@ void MainWindow::about()
 {
     QMessageBox::about(this, tr("About flies lifes"),
                        tr("<h2>Flies Lifes,</h2><p>Copyright in 2023 by Anna Belova.<p>The application ''Flies Lifes'' tells about life of flies in cell. "));
+}
+
+void MainWindow::instruction()
+{
+    QMessageBox::about(this, tr("Manual"),
+                       tr("<h2>Manual</h2>Set range level more then zero, and plant range will be equal to 2*range + 1, coordinate diapazon will be from -range to +range.\n Run fly life with help by randomizer. When all flies die, you can repeet it. \n Click on fly to get all information about it."));
 }
 
 void MainWindow::runFlies()
