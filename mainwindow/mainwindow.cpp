@@ -25,9 +25,9 @@ _expStupit(expStupit)
     _flyInfo=shared_ptr<QLabel>(new QLabel(this));
     _flyInfo->setGeometry(350, 50, 1000, 100);
     _flyInfo->setUpdatesEnabled(true);
-    _flyInfo->setStyleSheet("QGroupBox { border: 1px solid gray;"
+    _flyInfo->setStyleSheet("QLabel {  border: 1px solid gray;"
                             "border-radius: 3px;"
-                            "margin-top: 1ex; }");
+                            "background-color: #ffffff; }");
     _flyInfo->show();
 }
 
