@@ -22,6 +22,13 @@ _expStupit(expStupit)
     _running->setText("&Run");
     _running->show();
     connect(_running.get(), SIGNAL(clicked()), this, SLOT(runFlies()));
+    _flyInfo=shared_ptr<QLabel>(new QLabel(this));
+    _flyInfo->setGeometry(350, 50, 1000, 100);
+    _flyInfo->setUpdatesEnabled(true);
+    _flyInfo->setStyleSheet("QGroupBox { border: 1px solid gray;"
+                            "border-radius: 3px;"
+                            "margin-top: 1ex; }");
+    _flyInfo->show();
 }
 
 MainWindow::~MainWindow()
@@ -38,4 +45,11 @@ void MainWindow::runFlies()
 {
    _plant=shared_ptr<Plant>(new Plant(_range, _expRoominess, _expFlyAmount, _expStupit, this));
    _running->setEnabled(false);
+   connect(_plant.get(), SIGNAL(flyInfoIsGetted(QString&)), this, SLOT(onFlyInfoFromPlant(QString &)));
+}
+
+void MainWindow::onFlyInfoFromPlant(QString &text)
+{
+   _flyInfo->setText(text);
+   _flyInfo->update();
 }

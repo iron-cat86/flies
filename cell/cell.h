@@ -76,16 +76,16 @@ public:
       return false;
    }
 public:
-   vector<shared_ptr<Fly>> _flies;         //мухи
+   vector<shared_ptr<Fly>>       _flies;         //мухи
    vector<shared_ptr<InnerCell>> _innerCell;//внутренние ячейки
 private:
-   int                    _x=0;           //х-координата
-   int                    _y=0;           //у-координата
-   unsigned int           _flyRoominess=0;//мухоемкость
-   unsigned int           _flyAmount=0;   //количество мух
-   unsigned int           _range=0;       //размер поля
-   unsigned int           _id;            //идентификатор ячейки
-   bool                   _exist=true;    //существование ячейки на поле
+   int                           _x=0;           //х-координата
+   int                           _y=0;           //у-координата
+   unsigned int                  _flyRoominess=0;//мухоемкость
+   unsigned int                  _flyAmount=0;   //количество мух
+   unsigned int                  _range=0;       //размер поля
+   unsigned int                  _id;            //идентификатор ячейки
+   bool                          _exist=true;    //существование ячейки на поле
 };
 
 #endif //CELL_H

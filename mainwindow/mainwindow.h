@@ -27,6 +27,7 @@ public:
 public slots:
    void about();
    void runFlies();
+   void onFlyInfoFromPlant(QString &text);
 private:
    unsigned int            _range=0;        //размер квадрата
    unsigned int            _expRoominess=0; //порядок мухоемкостей
@@ -35,6 +36,7 @@ private:
    shared_ptr<QAction>     _aboutAction;
    shared_ptr<QMenu>       _helpMenu;
    shared_ptr<QPushButton> _running;
+   shared_ptr<QLabel>      _flyInfo;
    shared_ptr<Plant>       _plant;
 };
 #endif

@@ -67,16 +67,19 @@ Plant::Plant(
       {
          int j=jt-_M;
          qDebug()<<"["<<i<<"]["<<j<<"]";
-         unsigned int roominess=(unsigned int)abs(rand());
+         int power=1;
          
-         for(unsigned int n=0; n<10-_expRoominess; ++n)
-            roominess/=10;
+         for(unsigned int n=0; n<_expRoominess; ++n)
+            power*=10;
+         unsigned int roominess=(unsigned int)abs(rand()%power);
          
          if(maxRoominess<roominess)
             maxRoominess=roominess;
-         unsigned int flyAmount=(unsigned int)abs(rand());
-         for(unsigned int n=0; n<10-_expFlyAmount; ++n)
-            flyAmount/=10;
+         power=1;
+         
+         for(unsigned int n=0; n<_expFlyAmount; ++n)
+            power*=10;
+         unsigned int flyAmount=(unsigned int)abs(rand()%power);
          int trueFlyAmount=flyAmount;
          
          if(flyAmount>roominess)
@@ -102,10 +105,11 @@ Plant::Plant(
          
          for(unsigned int k=0; k<trueFlyAmount; ++k)
          {
-            unsigned int T=(unsigned int)(abs(rand()));
+            power=1;
             
-            for(int n=0; n<10-_expStupit; ++n)
-               T/=10;
+            for(int n=0; n<_expStupit; ++n)
+               power*=10;
+            unsigned int T=(unsigned int)(abs(rand()%power));
             shared_ptr<Fly> curfly=shared_ptr<Fly>(new Fly(idCell+k, T, cell->getX(), cell->getY(), _M, idCell));
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             qDebug()<<"Fly wwith id "<<curfly->getID()<<"and time of stupid="<<curfly->getStupit()<<" is created in cell with coordinate: x="<<curfly->getX()<<", y="<<curfly->getY();
@@ -190,6 +194,7 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
    f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
    //qDebug()<<"set geometry";
    f->_clickButton->setEnabled(true); 
+   connect(f->_clickButton.get(), SIGNAL(clicked()), f.get(), SLOT(onClicked()));
    //qDebug()<<"set enabled";
    f->_clickButton->show(); 
    //qDebug()<<"show";
@@ -208,6 +213,7 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
       f.get(), 
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
+   connect(f.get(), SIGNAL(infoFromFly(QString&)), this, SLOT(onInfoFromFly(QString&)));
    //qDebug()<<"connect3";
    f->start();
    //qDebug()<<"start";
@@ -215,8 +221,8 @@ void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsign
 
 void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
 {
-   f->exit();
    disconnect(f.get(), SIGNAL(questionInfo(unsigned int, int, int)), this, SLOT(giveCellInfo(unsigned int, int, int)));
+   disconnect(f->_clickButton.get(), SIGNAL(clicked()), f.get(), SLOT(onClicked()));
    disconnect(
       f.get(), 
       SIGNAL(allreadyChanging(unsigned int, unsigned int, unsigned int)), 
@@ -229,6 +235,7 @@ void Plant::disconnectFlyWithPlant(shared_ptr<Fly> f)
       f.get(), 
       SLOT(getCellInfo(unsigned int, unsigned int, unsigned int, unsigned int, int, int))
    );
+   disconnect(f.get(), SIGNAL(infoFromFly(QString&)), this, SLOT(onInfoFromFly(QString&)));
 }
 
 Plant::~Plant()
@@ -238,16 +245,14 @@ Plant::~Plant()
 void Plant::giveCellInfo(unsigned int qID, int x, int y)
 {
    shared_ptr<Cell> newcell=findCellWithCoordinates(x, y);
-   
-   if(newcell->isExist())
-      emit giveCell(
-         qID, 
-         newcell->getFlyAmount(), 
-         newcell->getFlyRoominess(), 
-         newcell->getID(),  
-         newcell->getX(), 
-         newcell->getY()
-      ); 
+   emit giveCell(
+      qID, 
+      newcell->getFlyAmount(), 
+      newcell->getFlyRoominess(), 
+      newcell->getID(),  
+      newcell->getX(), 
+      newcell->getY()
+   ); 
 }
 
 void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int newCellID)
@@ -313,7 +318,10 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
       qDebug()<<"fly is dead";    
 }  
 
-
+void Plant::onInfoFromFly(QString &text)
+{
+   emit flyInfoIsGetted(text);
+}
 shared_ptr<Cell> Plant::findCellWithCoordinates(int x, int y)
 {
    for(shared_ptr<Cell> value: _cells)

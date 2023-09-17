@@ -52,6 +52,7 @@ public:
 signals:
    void questionInfo(unsigned int myID, int x, int y);
    void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
+   void infoFromFly(QString &text);
 protected:
    virtual void run();
 public slots:
@@ -63,11 +64,12 @@ public slots:
       int          x,
       int          y
       );
+   void onClicked();
 public:
    shared_ptr<QPushButton> _clickButton;
 private:
    bool changeCell(int x, int y); //сменить клетку
-   bool tryCell(int x, int y);
+   bool tryCell();
    void beFoolish();              //тупить
 private:
    unsigned int _id=0;         //идентификатор мухи

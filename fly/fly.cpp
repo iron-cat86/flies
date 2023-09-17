@@ -34,6 +34,7 @@ _innerCellID(fly->getInnerCellID())
 
 Fly::~Fly()
 {
+   wait();
 }
 
 void Fly::changeCellFromCell(int x, int y, unsigned int cellID)
@@ -43,72 +44,43 @@ void Fly::changeCellFromCell(int x, int y, unsigned int cellID)
    _cellID=cellID;
 }
 
-bool Fly::tryCell(int x, int y)
+bool Fly::tryCell()
 {
-   if(!_death)
+   int x=-_range+rand()%(_range+1);
+   int y=-_range+rand()%(_range+1);
+   
+   while(abs(x)>(int)_range||abs(y)>(int)_range||(x==_x&&y==_y))
    {
-      beFoolish();
-      bool change=changeCell(x, y);
-      //qDebug()<<"("<<x<<", "<<y<<"): change="<<change;
-      return change;
-   }
-   return false;
+      x=-_range+rand()%(_range+1);
+      y=-_range+rand()%(_range+1);
+   }   
+   beFoolish();
+   return changeCell(x, y);
 }
 
 void Fly::run()
-{
-   int x=rand()%10-2*_range-1;
-   int y=rand()%10-2*_range-1;
-   
-   while(abs(x)>(int)_range||x==_x)
-      x=rand()%10-2*_range-1;
-         
-   while(abs(y)>(int)_range||y==_y)
-      y=rand()%10+2*_range-1;
-   bool found=false;
-   
-   while(!found&&!_death)
-   {
-      found=tryCell(x, y);
-      
-      if(!found)
-      {
-         x=rand()%10-2*_range-1;
-         y=rand()%10-2*_range-1;
-         
-         while(abs(x)>(int)_range||x==_x)
-            x=rand()%10-2*_range-1;
-         
-         while(abs(y)>(int)_range||y==_y)
-            y=rand()%10+2*_range-1;
-      }
-   }
+{ 
+   qDebug()<<_id<<"-start-"<<_death;
+   while(!(tryCell()||_death));
+   qDebug()<<_id<<"-finish-"<<_death;
+   return;
 }
 
 bool Fly::changeCell(int x, int y)
 {
-   unsigned int alldID=_cellID;
-  // qDebug()<<"alld id...";
-   if(_death)
-   {
-      exit();
-      return false;
-   }
-   
    while(!(_info.x==x&&_info.y==y))
       emit questionInfo(_id, x, y);
-      
+   qDebug()<<"Past x="<<x<<", y="<<y<<". info: "<<_info.x<<", "<<_info.y;
+         
    if(
       !_death&&//я не дохлая
       _info.flyAmount+1<=_info.flyRoominess//с моим прибытием мухоемкость новой клетки не превысится
    )
    {
-      if(isRunning())
-         exit();
       _milage+=sqrt((x-_x)*(x-_x)+(y-_y)*(y-_y));
       _velocity=_milage/((double)_age);
-      //qDebug()<<"emit "<<_id<<"("<<alldID<<"->"<<_info.ID<<")";
-      emit allreadyChanging(_id, alldID, _info.ID);
+      //qDebug()<<"emit "<<_id<<"("<<_cellID<<"->"<<_info.ID<<")";
+      emit allreadyChanging(_id, _cellID, _info.ID);
       return true;
    }
    return false;
@@ -141,4 +113,29 @@ void Fly::beFoolish()
    if(_age>=(2*_range+1)*_T)
       _death=true;
    qDebug()<<"I'm fly, id-"<<_id<<": age="<<_age<<", milage="<<_milage<<", velocity="<<_velocity<<", my cell now: x="<<_x<<", y="<<_y<<"(cell-id="<<_cellID<<") on plant with range="<<_range<<". Am I alive? "<<(_death?"No":"Yes");
+}
+
+void Fly::onClicked()
+{
+   QString text="I'm fly, id-";
+   text+=QString::number(_id);
+   text+=": age=";
+   text+=QString::number(_age);
+   text+=", stupit level=";
+   text+=QString::number(_T);
+   text+=", milage=";
+   text+=QString::number(_milage);
+   text+=", velocity=";
+   text+=QString::number(_velocity);
+   text+=", my cell now: x=";
+   text+=QString::number(_x);
+   text+=", y=";
+   text+=QString::number(_y);
+   text+="(cell-id=";
+   text+=QString::number(_cellID);
+   text+=") on plant with range=";
+   text+=QString::number(_range);
+   text+=". Am I alive? ";
+   text+=(_death?"No":"Yes");
+   emit infoFromFly(text);
 }
