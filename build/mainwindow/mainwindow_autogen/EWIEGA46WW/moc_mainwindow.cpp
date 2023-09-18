@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[10];
-    char stringdata0[87];
+    char stringdata0[90];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,20 +32,20 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 5), // "about"
-QT_MOC_LITERAL(2, 17, 0), // ""
-QT_MOC_LITERAL(3, 18, 11), // "instruction"
-QT_MOC_LITERAL(4, 30, 8), // "runFlies"
-QT_MOC_LITERAL(5, 39, 18), // "onFlyInfoFromPlant"
-QT_MOC_LITERAL(6, 58, 8), // "QString&"
-QT_MOC_LITERAL(7, 67, 4), // "icon"
-QT_MOC_LITERAL(8, 72, 4), // "text"
-QT_MOC_LITERAL(9, 77, 9) // "onAllDead"
+QT_MOC_LITERAL(1, 11, 9), // "helpAbout"
+QT_MOC_LITERAL(2, 21, 0), // ""
+QT_MOC_LITERAL(3, 22, 10), // "helpManual"
+QT_MOC_LITERAL(4, 33, 8), // "runFlies"
+QT_MOC_LITERAL(5, 42, 18), // "onFlyInfoFromPlant"
+QT_MOC_LITERAL(6, 61, 8), // "QString&"
+QT_MOC_LITERAL(7, 70, 4), // "icon"
+QT_MOC_LITERAL(8, 75, 4), // "text"
+QT_MOC_LITERAL(9, 80, 9) // "onAllDead"
 
     },
-    "MainWindow\0about\0\0instruction\0runFlies\0"
-    "onFlyInfoFromPlant\0QString&\0icon\0text\0"
-    "onAllDead"
+    "MainWindow\0helpAbout\0\0helpManual\0"
+    "runFlies\0onFlyInfoFromPlant\0QString&\0"
+    "icon\0text\0onAllDead"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,8 +85,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->about(); break;
-        case 1: _t->instruction(); break;
+        case 0: _t->helpAbout(); break;
+        case 1: _t->helpManual(); break;
         case 2: _t->runFlies(); break;
         case 3: _t->onFlyInfoFromPlant((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 4: _t->onAllDead(); break;

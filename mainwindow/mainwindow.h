@@ -18,6 +18,8 @@
 
 using namespace std;
 
+enum ValueForEdit {Zero, Single, Abs};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,8 +27,8 @@ public:
     MainWindow();
     ~MainWindow();
 public slots:
-   void about();
-   void instruction();
+   void helpAbout();
+   void helpManual();
    void runFlies();
    void onFlyInfoFromPlant(QString &icon, QString &text);
    void onAllDead();
@@ -41,10 +43,16 @@ private:
       int                    width, 
       int                    height
    );
+   void createAction(shared_ptr<QAction> &action, QString header, QString status);
+   void checkEditValueLessZero(shared_ptr<QLineEdit> &edit, ValueForEdit value);
+   void about(QString header, QString text);
+   void checkMinMaxValue(shared_ptr<QLineEdit> &minedit, shared_ptr<QLineEdit> &maxedit);
+   void setWidgetsEnabled(bool enabled);
+   void setPixmapOnFlyIcon(QPixmap pix);
 private:
    shared_ptr<Plant>       _plant;            //поле с ячейками
    shared_ptr<QAction>     _aboutAction;      //о приложении
-   shared_ptr<QAction>     _instruction;      //о приложении
+   shared_ptr<QAction>     _manualAction;     //о приложении
    shared_ptr<QMenu>       _helpMenu;         //помощь пользователю
    shared_ptr<QPushButton> _running;          //кнопка запуска
    shared_ptr<QLineEdit>   _rangeEdit;        //настройка уровня размерности поля
