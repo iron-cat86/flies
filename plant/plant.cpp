@@ -90,10 +90,13 @@ Plant::Plant(
             curfly->_clickButton=shared_ptr<QPushButton>(new QPushButton(cell.get()));
             cell->_flies.push_back(curfly);         
             cell->_flies.back()->_clickButton->setEnabled(true);
-            QString iconName;
+            QString iconName, avatarName;
             QTextStream str(&iconName);
-            str<<"../images/icon"<<QString::number(numName)<<".jpg";
+            QTextStream str1(&avatarName);
+            str<<"../images/buttons/icon"<<QString::number(numName)<<".png";
+            str1<<"../images/icon"<<QString::number(numName)<<".jpg";
             cell->_flies.back()->setIconName(iconName);
+            cell->_flies.back()->setAvatarName(avatarName);
             ++numName;
             
             if(numName>30)
@@ -109,44 +112,11 @@ Plant::Plant(
    }
    unsigned int size=(unsigned int)(sqrt((double)min(_flySum, maximumRoominess)));
    qDebug()<<"fly sum="<<_flySum;
-   _flySizeX=(_cellX+3)/(size+1);
-   _flySizeY=(_cellY+3)/size;
    
    for(shared_ptr<Cell> c :_cells)
    {
-      unsigned int it=0;
-      unsigned int jt=0;
-      unsigned int innercellid=0;
-      
       for(unsigned int i=0; i<c->_flies.size(); ++i)
-      {
-         connectAndSetFlyWithPlant(c->_flies[i], it, jt);
-         shared_ptr<InnerCell> innercell=shared_ptr<InnerCell>(new InnerCell(innercellid, false, it, jt));
-         c->_innerCell.push_back(innercell);
-         c->_flies[i]->setInnerCellID(innercellid);
-         it+=_flySizeX+3;
-         
-         if(it>=(_flySizeX+3)*(size+1))
-         {
-            it=0;
-            jt+=_flySizeY+3;
-         }
-         ++innercellid;
-      }
-      
-      while(jt<(_flySizeY+3)*size)
-      {
-         shared_ptr<InnerCell> innercell=shared_ptr<InnerCell>(new InnerCell(innercellid, true, it, jt));
-         c->_innerCell.push_back(innercell);
-         it+=_flySizeX+3;
-         
-         if(it>=(_flySizeX+3)*(size+1))
-         {
-            it=0;
-            jt+=_flySizeY+3;
-         }
-         ++innercellid;
-      }
+         connectAndSetFlyWithPlant(c->_flies[i]);
       c->update();
       c->show();
    }
@@ -162,9 +132,19 @@ Plant::~Plant()
    }
 }
 
-void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt)
+void Plant::connectAndSetFlyWithPlant(shared_ptr<Fly> f)
 {
-   f->_clickButton->setGeometry(it, jt, _flySizeX, _flySizeY); 
+   int intervX=_cellX-10;
+   int x=rand()%intervX;
+   
+   while(x<0||x>intervX)
+      x=rand()%intervX;
+   int intervY=_cellY-10;
+   int y=rand()%intervY;
+   
+   while(y<0||y>intervY)
+      y=rand()%intervY;
+   f->_clickButton->setGeometry(x, y, 10, 10); 
    QString styleButton=QString(
             "QAbstractButton {"
                     "color: rgb(255, 255, 255);"
@@ -243,7 +223,6 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
       
       if(_cells[it]->decrFlyAmount())
       { 
-         _cells[it]->_innerCell[curFly->getInnerCellID()]->setFree();
          _cells[it]->deleteFly(flyID);
          unsigned int it_1=0;
          
@@ -252,23 +231,11 @@ void Plant::changeCell(unsigned int flyID, unsigned int oldCellID, unsigned int 
             
          if(it_1<_cells.size()&&_cells[it_1]->incrFlyAmount())
          {
-            unsigned int inner_it=0;
-            
-            while(inner_it<_cells[it_1]->_innerCell.size()&&!_cells[it_1]->_innerCell[inner_it]->isFree())
-               ++inner_it;
-            
-            if(inner_it<_cells[it_1]->_innerCell.size())
-            {
-               _cells[it_1]->_innerCell[inner_it]->setLock();
-               _cells[it_1]->insertFly(curfly);
-               _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get())); 
-               _cells[it_1]->_flies.back()->_clickButton->setEnabled(true); 
-               _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID); 
-               _cells[it_1]->_flies.back()->setInnerCellID(_cells[it_1]->_innerCell[inner_it]->getID());
-               connectAndSetFlyWithPlant(_cells[it_1]->_flies.back(), _cells[it_1]->_innerCell[inner_it]->getX(), _cells[it_1]->_innerCell[inner_it]->getY());
-            }
-            else
-               qDebug()<<"Error-3";
+            _cells[it_1]->insertFly(curfly);
+            _cells[it_1]->_flies.back()->_clickButton=shared_ptr<QPushButton>(new QPushButton(_cells[it_1].get())); 
+            _cells[it_1]->_flies.back()->_clickButton->setEnabled(true); 
+            _cells[it_1]->_flies.back()->changeCellFromCell(_cells[it_1]->getX(), _cells[it_1]->getY(), newCellID); 
+            connectAndSetFlyWithPlant(_cells[it_1]->_flies.back());
          }
          else
             qDebug()<<"Error-2";

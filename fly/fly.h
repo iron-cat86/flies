@@ -51,6 +51,7 @@ public:
    void changeCellFromCell(int x, int y, unsigned int cellID);
    void setInnerCellID(unsigned int innerCellID) {_innerCellID=innerCellID;}
    void setIconName(QString &name)               {_iconName=name;}
+   void setAvatarName(QString &name)             {_avatarName=name;}
 signals:
    void questionInfo(unsigned int myID, int x, int y);
    void allreadyChanging(unsigned int myID, unsigned int alldCellID, unsigned int cellID);
@@ -87,7 +88,8 @@ private:
    int          _x=0;                               //клетка, в которой муха находится
    int          _y=0;
    CellInfo     _info;                              //информация о потенциальной ячейке
-   QString      _iconName="../mainwindow/icon.jpg"; //имя иконки для кнопки
+   QString      _iconName="../images/buttons/icon0.jpg"; //имя иконки для кнопки
+   QString      _avatarName="../images/icon0.jpg"; //имя иконки для аватара
 };
 
 #endif//FLY_H

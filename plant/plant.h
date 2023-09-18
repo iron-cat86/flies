@@ -41,12 +41,10 @@ public slots:
    void onInfoFromFly(QString &icon, QString &text);
    void onDeadFly();
 private:
-   void connectAndSetFlyWithPlant(shared_ptr<Fly> f, unsigned int it, unsigned int jt);
+   void connectAndSetFlyWithPlant(shared_ptr<Fly> f);
    void disconnectFlyWithPlant(shared_ptr<Fly> f);
    shared_ptr<Cell> findCellWithCoordinates(int x, int y);
 private:
-   unsigned int _flySizeX=0;              //размер мухи по Х
-   unsigned int _flySizeY=0;              //размер мухи по Y
    unsigned int _flySum=0;                //общее колличество мух
    unsigned int _deadFlySum=0;            //количество дохлых мух
    int          _cellX=0;                 //размер ячейки

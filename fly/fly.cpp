@@ -114,7 +114,7 @@ void Fly::beFoolish()
    if(_age>=(2*_range+1)*_T)
    {
       _death=true;
-      _clickButton->setIcon(QIcon("../images/dead.jpg"));
+      _clickButton->setIcon(QIcon("../images/buttons/dead.png"));
    }
 }
 
@@ -129,5 +129,5 @@ void Fly::onClicked()
        <<QString::number(_velocity)<<", \nmy cell now: x="
        <<QString::number(_x)<<", y="<<QString::number(_y)<<"(cell-id="<<QString::number(_cellID)<<") on plant with range="<<QString::number(2*_range+1)<<". \nAm I alive? "
        <<(_death?"No":"Yes");
-   emit infoFromFly(_iconName, text);
+   emit infoFromFly(_avatarName, text);
 }
