@@ -6,5 +6,5 @@ CXX_DEFINES = -DQT_CORE_LIB -DQT_NO_DEBUG
 
 CXX_INCLUDES = -I/home/bel/work/flies/build/fly/fly_autogen/include -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/home/bel/work/flies/fly -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 
-CXX_FLAGS = -fvisibility-inlines-hidden -std=c++17 -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/bel/miniconda3/include -O2 -g -DNDEBUG -std=gnu++14 -fPIC
+CXX_FLAGS = -fvisibility-inlines-hidden -std=c++17 -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/bel/miniconda3/include -O2 -g -DNDEBUG -std=gnu++17 -fPIC
 

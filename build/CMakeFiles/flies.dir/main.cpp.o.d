@@ -14,7 +14,7 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/cpu_defines.h \
- /usr/include/c++/9/cstddef \
+ /usr/include/c++/9/pstl/pstl_config.h /usr/include/c++/9/cstddef \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h \
  /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
  /usr/include/c++/9/bits/stl_pair.h /usr/include/c++/9/bits/move.h \
@@ -87,6 +87,78 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/c++/9/bits/alloc_traits.h \
  /usr/include/c++/9/bits/memoryfwd.h \
  /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
+ /usr/include/c++/9/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/9/functional /usr/include/c++/9/bits/stl_function.h \
+ /usr/include/c++/9/backward/binders.h /usr/include/c++/9/tuple \
+ /usr/include/c++/9/array /usr/include/c++/9/stdexcept \
+ /usr/include/c++/9/string /usr/include/c++/9/bits/stringfwd.h \
+ /usr/include/c++/9/bits/char_traits.h /usr/include/c++/9/bits/postypes.h \
+ /usr/include/c++/9/cwchar /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/9/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/c++/9/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/c++allocator.h \
+ /usr/include/c++/9/ext/new_allocator.h \
+ /usr/include/c++/9/bits/localefwd.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/c++locale.h \
+ /usr/include/c++/9/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/9/iosfwd \
+ /usr/include/c++/9/cctype /usr/include/ctype.h \
+ /usr/include/c++/9/bits/ostream_insert.h \
+ /usr/include/c++/9/bits/cxxabi_forced.h \
+ /usr/include/c++/9/bits/range_access.h \
+ /usr/include/c++/9/bits/basic_string.h \
+ /usr/include/c++/9/ext/atomicity.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/gthr.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+ /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/timex.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/atomic_word.h \
+ /usr/include/c++/9/string_view /usr/include/c++/9/bits/functional_hash.h \
+ /usr/include/c++/9/bits/string_view.tcc \
+ /usr/include/c++/9/ext/string_conversions.h /usr/include/c++/9/cstdio \
+ /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/9/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+ /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+ /usr/include/c++/9/bits/basic_string.tcc \
+ /usr/include/c++/9/bits/uses_allocator.h \
+ /usr/include/c++/9/bits/invoke.h /usr/include/c++/9/bits/refwrap.h \
+ /usr/include/c++/9/bits/std_function.h /usr/include/c++/9/unordered_map \
+ /usr/include/c++/9/ext/aligned_buffer.h \
+ /usr/include/c++/9/bits/hashtable.h \
+ /usr/include/c++/9/bits/hashtable_policy.h \
+ /usr/include/c++/9/bits/node_handle.h /usr/include/c++/9/optional \
+ /usr/include/c++/9/bits/enable_special_members.h \
+ /usr/include/c++/9/bits/unordered_map.h \
+ /usr/include/c++/9/bits/erase_if.h /usr/include/c++/9/vector \
+ /usr/include/c++/9/bits/stl_uninitialized.h \
+ /usr/include/c++/9/bits/stl_vector.h \
+ /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
+ /usr/include/c++/9/pstl/execution_defs.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h \
@@ -96,9 +168,6 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h \
  /usr/include/c++/9/atomic /usr/include/c++/9/bits/atomic_base.h \
- /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h \
@@ -115,67 +184,14 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/string.h /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/c++/9/stdlib.h \
- /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
- /usr/include/c++/9/string /usr/include/c++/9/bits/stringfwd.h \
- /usr/include/c++/9/bits/char_traits.h /usr/include/c++/9/bits/postypes.h \
- /usr/include/c++/9/cwchar /usr/include/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/9/cstdint \
- /usr/include/c++/9/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/c++allocator.h \
- /usr/include/c++/9/ext/new_allocator.h \
- /usr/include/c++/9/bits/localefwd.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/c++locale.h \
- /usr/include/c++/9/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/9/iosfwd \
- /usr/include/c++/9/cctype /usr/include/ctype.h \
- /usr/include/c++/9/bits/ostream_insert.h \
- /usr/include/c++/9/bits/cxxabi_forced.h \
- /usr/include/c++/9/bits/stl_function.h \
- /usr/include/c++/9/backward/binders.h \
- /usr/include/c++/9/bits/range_access.h \
- /usr/include/c++/9/bits/basic_string.h \
- /usr/include/c++/9/ext/atomicity.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/gthr.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/sched.h \
- /usr/include/x86_64-linux-gnu/bits/sched.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
- /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
- /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/atomic_word.h \
- /usr/include/c++/9/ext/string_conversions.h /usr/include/c++/9/cstdio \
- /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/9/cerrno \
- /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
- /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
- /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
- /usr/include/c++/9/bits/functional_hash.h \
- /usr/include/c++/9/bits/basic_string.tcc /usr/include/c++/9/iterator \
+ /usr/include/c++/9/stdlib.h /usr/include/c++/9/iterator \
  /usr/include/c++/9/ostream /usr/include/c++/9/ios \
  /usr/include/c++/9/bits/ios_base.h \
  /usr/include/c++/9/bits/locale_classes.h \
  /usr/include/c++/9/bits/locale_classes.tcc \
  /usr/include/c++/9/system_error \
  /usr/include/x86_64-linux-gnu/c++/9/bits/error_constants.h \
- /usr/include/c++/9/stdexcept /usr/include/c++/9/streambuf \
- /usr/include/c++/9/bits/streambuf.tcc \
+ /usr/include/c++/9/streambuf /usr/include/c++/9/bits/streambuf.tcc \
  /usr/include/c++/9/bits/basic_ios.h \
  /usr/include/c++/9/bits/locale_facets.h /usr/include/c++/9/cwctype \
  /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
@@ -199,9 +215,9 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h \
  /usr/include/c++/9/numeric /usr/include/c++/9/bits/stl_numeric.h \
- /usr/include/c++/9/list /usr/include/c++/9/bits/stl_list.h \
- /usr/include/c++/9/bits/allocated_ptr.h \
- /usr/include/c++/9/ext/aligned_buffer.h /usr/include/c++/9/bits/list.tcc \
+ /usr/include/c++/9/pstl/glue_numeric_defs.h /usr/include/c++/9/list \
+ /usr/include/c++/9/bits/stl_list.h \
+ /usr/include/c++/9/bits/allocated_ptr.h /usr/include/c++/9/bits/list.tcc \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -218,14 +234,8 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h \
- /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_uninitialized.h \
- /usr/include/c++/9/bits/stl_vector.h \
- /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
  /usr/include/c++/9/map /usr/include/c++/9/bits/stl_tree.h \
- /usr/include/c++/9/bits/stl_map.h /usr/include/c++/9/tuple \
- /usr/include/c++/9/array /usr/include/c++/9/bits/uses_allocator.h \
- /usr/include/c++/9/bits/invoke.h /usr/include/c++/9/bits/stl_multimap.h \
- /usr/include/c++/9/bits/erase_if.h \
+ /usr/include/c++/9/bits/stl_map.h /usr/include/c++/9/bits/stl_multimap.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
@@ -240,9 +250,8 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
- /usr/include/c++/9/functional /usr/include/c++/9/bits/refwrap.h \
- /usr/include/c++/9/bits/std_function.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h \
+ /usr/include/c++/9/variant \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSplashScreen \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsplashscreen.h \
@@ -281,6 +290,7 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/c++/9/bits/shared_ptr_base.h \
  /usr/include/c++/9/bits/shared_ptr_atomic.h \
  /usr/include/c++/9/backward/auto_ptr.h \
+ /usr/include/c++/9/pstl/glue_memory_defs.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QTime \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h \
  /home/bel/work/flies/mainwindow/mainwindow.h \
@@ -418,6 +428,18 @@ CMakeFiles/flies.dir/main.cpp.o: /home/bel/work/flies/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
  /usr/include/x86_64-linux-gnu/bits/mathinline.h \
+ /usr/include/c++/9/bits/specfun.h /usr/include/c++/9/tr1/gamma.tcc \
+ /usr/include/c++/9/tr1/special_function_util.h \
+ /usr/include/c++/9/tr1/bessel_function.tcc \
+ /usr/include/c++/9/tr1/beta_function.tcc \
+ /usr/include/c++/9/tr1/ell_integral.tcc \
+ /usr/include/c++/9/tr1/exp_integral.tcc \
+ /usr/include/c++/9/tr1/hypergeometric.tcc \
+ /usr/include/c++/9/tr1/legendre_function.tcc \
+ /usr/include/c++/9/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/9/tr1/poly_hermite.tcc \
+ /usr/include/c++/9/tr1/poly_laguerre.tcc \
+ /usr/include/c++/9/tr1/riemann_zeta.tcc \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmessageauthenticationcode.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcryptographichash.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetaobject.h \

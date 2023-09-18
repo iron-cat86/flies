@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(flies LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_COMPILER /usr/bin/g++)
 SET(CMAKE_C_COMPILER /usr/bin/gcc)
 SET(LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu)
@@ -19,11 +19,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(PkgConfig REQUIRED)
 find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED) 
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Svg REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
-find_package(Qt5Concurrent REQUIRED)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME} "main.cpp")
@@ -43,7 +39,6 @@ target_include_directories(
         ) # TODO: extract public headers to separate dir
 
 target_link_libraries(flies PUBLIC
-    #fly-thread
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
